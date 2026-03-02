@@ -74,7 +74,7 @@ export const Hero = () => {
 
           {/* Main container */}
           <form
-            onClick={onSubmitHandler}
+            onSubmit={onSubmitHandler}
             className="relative bg-surface-dark/85 backdrop-blur-lg border border-border-dark rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.45)] focus-within:border-primary/70 transition-colors duration-200"
           >
             {/* Sparkle icon */}
