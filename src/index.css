@@ -25,6 +25,13 @@
   body {
     @apply bg-background-dark text-slate-100 font-display selection:bg-primary selection:text-white;
   }
+   button{
+    @apply cursor-pointer
+   }
+}
+
+.no-scrollbar::-webkit-scrollbar{
+  display: none;
 }
 
 @layer utilities {
