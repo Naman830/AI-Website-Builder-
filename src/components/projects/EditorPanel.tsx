@@ -90,8 +90,8 @@ const EditorPanel = ({
             </label>
             <input
               type="text"
-              value={values.className || ""}
-              onChange={(e) => handleStyleChange("className", e.target.value)}
+              value={values.styles.padding }
+              onChange={(e) => handleStyleChange("padding", e.target.value)}
               className="w-full text-sm p-2 border rounded-md focus:ring-2 focus:ring-indigo-500 outline-none "
             />
           </div>
