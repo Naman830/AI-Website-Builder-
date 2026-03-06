@@ -36,7 +36,7 @@ const Sidebar = ({
     >
       <div className="flex flex-col h-full">
         {/* Message Container*/}
-        <div className="flex-1 overflow-y-auto no-scollbar px-3 flex flex-col gap-4 ">
+        <div className="flex-1 overflow-y-auto no-scrollbar px-3 flex flex-col gap-4 ">
           {[...project.conversation, ...project.versions]
             .sort(
               (a, b) =>

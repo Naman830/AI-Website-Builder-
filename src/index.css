@@ -15,10 +15,10 @@
   --color-border-dark: #2e2839;
   --color-text-secondary: #a69db9;
 
-  --radius-DEFAULT: 1rem;
+  /* --radius-DEFAULT: 1rem;
   --radius-lg: 1.5rem;
   --radius-xl: 2rem;
-  --radius-2xl: 3rem;
+  --radius-2xl: 3rem; */
 }
 
 @layer base {
@@ -28,10 +28,6 @@
    button{
     @apply cursor-pointer
    }
-}
-
-.no-scrollbar::-webkit-scrollbar{
-  display: none;
 }
 
 @layer utilities {
@@ -48,4 +44,17 @@
       linear-gradient(90deg, rgba(46, 40, 57, 0.2) 1px, transparent 1px);
     background-size: 40px 40px;
   }
+}
+
+
+
+/* Hide scrollbar for all browsers */
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
