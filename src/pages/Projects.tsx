@@ -1,7 +1,14 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import type { Project } from "../types";
-import { Loader2Icon, MessageSquareIcon, XIcon } from "lucide-react";
+import {
+  LaptopIcon,
+  Loader2Icon,
+  MessageSquareIcon,
+  SmartphoneIcon,
+  TabletIcon,
+  XIcon,
+} from "lucide-react";
 import { dummyConversations, dummyProjects } from "../assets/assets";
 
 const Projects = () => {
@@ -46,25 +53,54 @@ const Projects = () => {
     <div className="flex flex-col h-screen w-full bg-gray-900 text-white">
       {/* Builder Navbar */}
       <div className="flex max-sm:flex-col sm:items-center gap-4 px-4 py-2 no-scrollbar">
-            {/* Left */}
-            <div className="flex items-center gap-2 sm:min-w-90 text-nowrap">
-              <img src="/favicon.svg" alt="logo" className="h-6 cursor-pointer" onClick={()=> navigate('/')}/>
+        {/* Left */}
+        <div className="flex items-center gap-2 sm:min-w-90 text-nowrap">
+          <img
+            src="/favicon.svg"
+            alt="logo"
+            className="h-6 cursor-pointer"
+            onClick={() => navigate("/")}
+          />
 
-              <div className="max-w-64 sm:max-w-xs">
-                <p className="text-sm font-medium capitalize truncate">{project.name}</p>
-                <p className="text-xs text-gray-400 -mt-0.5">Previewing last save version</p>
+          <div className="max-w-64 sm:max-w-xs">
+            <p className="text-sm font-medium capitalize truncate">
+              {project.name}
+            </p>
+            <p className="text-xs text-gray-400 -mt-0.5">
+              Previewing last save version
+            </p>
+          </div>
 
-              </div>
-
-              <div className="sm:hidden flex-1 flex justify-end">
-{isMenuOpen ? 
-<MessageSquareIcon onClick={() => setIsMenuOpen(false)} className="size-6 cursor-pointer"/> : <XIcon 
-  onClick={() => setIsMenuOpen(true)}className="size-6 cursor-pointer"/>}
-              </div>
-            </div>
-            {/* middle */}
-            <div></div>
-            {/* right */}
+          <div className="sm:hidden flex-1 flex justify-end">
+            {isMenuOpen ? (
+              <MessageSquareIcon
+                onClick={() => setIsMenuOpen(false)}
+                className="size-6 cursor-pointer"
+              />
+            ) : (
+              <XIcon
+                onClick={() => setIsMenuOpen(true)}
+                className="size-6 cursor-pointer"
+              />
+            )}
+          </div>
+        </div>
+        {/* middle */}
+        <div className="hidden sm:flex gap-2 bg-gray-950 p-1.5 rounded-md">
+          <SmartphoneIcon
+            onClick={() => setDevice("phone")}
+            className={`size-6 p-1 rounded cursor-pointer  ${device === "phone" ? "bg-gray-700" : ""}`}
+          />
+          <TabletIcon
+            onClick={() => setDevice("tablet")}
+            className={`size-6 p-1 rounded cursor-pointer  ${device === "tablet" ? "bg-gray-700" : ""}`}
+          />
+          <LaptopIcon
+            onClick={() => setDevice("desktop")}
+            className={`size-6 p-1 rounded cursor-pointer  ${device === "desktop" ? "bg-gray-700" : ""}`}
+          />
+        </div>
+        {/* right */}
       </div>
     </div>
   ) : (
