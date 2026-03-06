@@ -67,7 +67,7 @@ const EditorPanel = ({
           <textarea
             value={values.text}
             onChange={(e) => handleChange("text", e.target.value)}
-            className="w-full text-sm p-2 border rounded-md focus:ring-2 focus:ring-indigo-500 outline-none min-h-20"
+            className="w-full text-sm p-2 border  border-gray-400 rounded-md focus:ring-2 focus:ring-indigo-500 outline-none min-h-20"
           />
         </div>
         {/* CLASS NAME */}
@@ -79,21 +79,70 @@ const EditorPanel = ({
             type="text"
             value={values.className || ""}
             onChange={(e) => handleChange("className", e.target.value)}
-            className="w-full text-sm p-2 border rounded-md focus:ring-2 focus:ring-indigo-500 outline-none "
+            className="w-full text-sm p-2 border  border-gray-400 rounded-md focus:ring-2 focus:ring-indigo-500 outline-none "
           />
         </div>
-        {/* Padding */}
+        {/* STYLES  */}
         <div className="grid grid-cols-2 gap-3">
+          {/* Padding */}
           <div>
             <label className="block text-xs font-medium text-gray-500 mb-1">
               Padding
             </label>
             <input
               type="text"
-              value={values.styles.padding }
+              value={values.styles.padding}
               onChange={(e) => handleStyleChange("padding", e.target.value)}
-              className="w-full text-sm p-2 border rounded-md focus:ring-2 focus:ring-indigo-500 outline-none "
+              className="w-full text-sm p-2 border border-gray-400 rounded-md focus:ring-2 focus:ring-indigo-500 outline-none "
             />
+          </div>
+          {/* Margin */}
+          <div>
+            <label className="block text-xs font-medium text-gray-500 mb-1">
+              Margin
+            </label>
+            <input
+              type="text"
+              value={values.styles.margin}
+              onChange={(e) => handleStyleChange("margin", e.target.value)}
+              className="w-full text-sm p-2 border border-gray-400 rounded-md focus:ring-2 focus:ring-indigo-500 outline-none "
+            />
+          </div>
+        </div>
+        {/* FONT SIZE */}
+        <div className="grid grid-cols-2 gap-3">
+          <div>
+            <label className="block text-xs font-medium text-gray-500 mb-1">
+              Font Size
+            </label>
+            <input
+              type="text"
+              value={values.styles.fontSize}
+              onChange={(e) => handleStyleChange("fontSize", e.target.value)}
+              className="w-full text-sm p-2 border border-gray-400 rounded-md focus:ring-2 focus:ring-indigo-500 outline-none "
+            />
+          </div>
+        </div>
+        {/* BACKGROUND */}
+        <div className="grid grid-cols-2 gap-3">
+          <div>
+            <label className="block text-xs font-medium text-gray-500 mb-1">
+              Background
+            </label>
+            <div className="flex items-center gap-2 border border-gray-500 mb-1">
+            <input
+              type="text"
+              value={
+                values.styles.backgroundColor === "rgba(0, 0, 0 , 0)"
+                  ? "#fffff"
+                  : values.styles.backgroundColor
+              }
+              onChange={(e) =>
+                handleStyleChange("backgroundColor", e.target.value)
+              }
+              className="w-6 h-6 cursor-pointer border-none p-0 "
+            />
+            </div>
           </div>
         </div>
       </div>
