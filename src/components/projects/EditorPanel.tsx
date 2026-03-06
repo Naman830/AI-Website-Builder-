@@ -123,25 +123,45 @@ const EditorPanel = ({
             />
           </div>
         </div>
-        {/* BACKGROUND */}
         <div className="grid grid-cols-2 gap-3">
+          {/* BACKGROUND */}
           <div>
             <label className="block text-xs font-medium text-gray-500 mb-1">
               Background
             </label>
             <div className="flex items-center gap-2 border border-gray-500 mb-1">
-            <input
-              type="text"
-              value={
-                values.styles.backgroundColor === "rgba(0, 0, 0 , 0)"
-                  ? "#fffff"
-                  : values.styles.backgroundColor
-              }
-              onChange={(e) =>
-                handleStyleChange("backgroundColor", e.target.value)
-              }
-              className="w-6 h-6 cursor-pointer border-none p-0 "
-            />
+              <input
+                type="color"
+                value={
+                  values.styles.backgroundColor === "rgba(0, 0, 0 , 0)"
+                    ? "#fffff"
+                    : values.styles.backgroundColor
+                }
+                onChange={(e) =>
+                  handleStyleChange("backgroundColor", e.target.value)
+                }
+                className="w-6 h-6 cursor-pointer border-none p-0 "
+              />
+              <span className="text-xs text-gray-600 truncate">
+                {values.styles.backgroundColor}
+              </span>
+            </div>
+          </div>
+          {/* TEXT COLOR */}
+          <div>
+            <label className="block text-xs font-medium text-gray-500 mb-1">
+              Text Color
+            </label>
+            <div className="flex items-center gap-2 border border-gray-500 mb-1">
+              <input
+                type="color"
+                value={values.styles.color}
+                onChange={(e) => handleStyleChange("color", e.target.value)}
+                className="w-6 h-6 cursor-pointer border-none p-0 "
+              />
+              <span className="text-xs text-gray-600 truncate">
+                {values.styles.color}
+              </span>
             </div>
           </div>
         </div>
