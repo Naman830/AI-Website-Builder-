@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import type { Project } from "../types";
-import { Loader2Icon, PlusIcon } from "lucide-react";
+import { Loader2Icon, PlusIcon, TrashIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { dummyProjects } from "../assets/assets";
 
@@ -16,6 +16,10 @@ const MyProjects = () => {
       setLoading(false);
     }, 1000);
   };
+
+  const deleteProject= async(projectId:string) => {
+    
+  }
 
   useEffect(() => {
     fetchProject();
@@ -49,7 +53,10 @@ const MyProjects = () => {
                     className=" relative group w-72 max-sm:mx-auto cursor-pointer bg-gray-900/60 border-gray-700 rounded-lg overflow-hidden shadow-md group hover:shadow-indigo-700/30 hover:border-indigo-800/80 transition-all duration-300"
                   >
                     {/* DESKTOP LIKE MINI PREVIEW */}
-                    <div className="relative w-full h-40 bg-gray-900 overflow-hidden border-b border-gray-800 ">
+                    <div
+                      onClick={() => navigate(`/projects/${project.id}`)}
+                      className="relative w-full h-40 bg-gray-900 overflow-hidden border-b border-gray-800 "
+                    >
                       {project.current_code ? (
                         <iframe
                           srcDoc={project.current_code}
@@ -82,6 +89,36 @@ const MyProjects = () => {
                       <p className="text-gray-400 mt-2 text-sm line-clamp-2">
                         {project.initial_prompt}
                       </p>
+
+                      <div
+                        onClick={(e) => e.stopPropagation()}
+                        className="flex justify-between items-center mt-6 "
+                      >
+                        <span className="text-xs text-gray-500 ">
+                          {new Date(project.createdAt).toLocaleDateString()}
+                        </span>
+                      </div>
+
+                      <div className="flex gap-3 text-white text-sm mt-2">
+                        <button
+                          onClick={() => navigate(`/preview/${project.id}`)}
+                          className="px-3 py-1.5 bg-white/10 hover:bg-white/15 rounded-md transition-all"
+                        >
+                          Preview
+                        </button>
+
+                        <button
+                          onClick={() => navigate(`/projects/${project.id}`)}
+                          className="px-3 py-1.5 bg-white/10 hover:bg-white/15 rounded-md transition-all"
+                        >
+                          Open
+                        </button>
+                      </div>
+                    </div>
+                    <div onClick={e => e.stopPropagation()}>
+                      <TrashIcon className="absolute top-3 right-3 scale-0 group-hover:scale-100 bg-white p-1.5 size-7 rounded text-red-500 text-xl cursor-pointer transition-all"
+                      onClick={() => deleteProject(project.id) }
+                      />
                     </div>
                   </div>
                 ))}
