@@ -1,5 +1,6 @@
 import type { Message, Project, Version } from "../../types";
 import { BotIcon, EyeIcon, UserIcon } from "lucide-react";
+import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 
 interface SidebarProps {
@@ -17,6 +18,20 @@ const Sidebar = ({
   isGenerating,
   setIsGenerating,
 }: SidebarProps) => {
+
+
+    const messageRef= useRef<HTMLDivElement>(null)
+
+    const handleRollback = async(versionId: string) => {
+        
+    }
+
+    useEffect(() => {
+        if (messageRef.current) {
+            messageRef.current.scrollIntoView({behavior: 'smooth'})
+        }
+    }, [project.conversation.length, isGenerating])
+
   return (
     <div
       className={`h-full sm:max-w-sm rounded-xl bg-gray-900  border-gray-800 transition-all ${isMenuOpen ? "max-sm:w-0 overflow-hidden" : "w-full"}`}
@@ -78,7 +93,7 @@ const Sidebar = ({
                           Current Version
                         </button>
                       ) : (
-                        <button className="px-3 py-1 rounded-md text-xs bg-indigo-500 hover:bg-indigo-600 text-white">
+                        <button onClick={() => handleRollback(ver.id)} className="px-3 py-1 rounded-md text-xs bg-indigo-500 hover:bg-indigo-600 text-white">
                           Roll Back to this Version
                         </button>
                       )}
@@ -115,7 +130,11 @@ const Sidebar = ({
                 />
               </div>
             </div>
-          )}
+          )
+          
+          }
+          <div ref={messageRef}/>
+
         </div>
         {/* INPUT FIELD CONTAINER*/}
         <form></form>
