@@ -1,10 +1,15 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import type { Project } from "../types";
 import {
+  ArrowBigDownDashIcon,
+  EyeIcon,
+  EyeOffIcon,
+  FullscreenIcon,
   LaptopIcon,
   Loader2Icon,
   MessageSquareIcon,
+  SaveIcon,
   SmartphoneIcon,
   TabletIcon,
   XIcon,
@@ -101,6 +106,24 @@ const Projects = () => {
           />
         </div>
         {/* right */}
+        <div className="flex items-center justify-end gap-3 flex-1 text-xs sm:text-sm">
+          <button>
+            <SaveIcon size={16} /> Save
+          </button>
+          <Link target="_blank" to={`/preview/${project.id}`}>
+            <FullscreenIcon size={16} />
+            Preview
+          </Link>
+          <button>
+            <ArrowBigDownDashIcon size={16} /> Download
+          </button>
+          <button>
+            {project.isPublished ? 
+            <EyeOffIcon size={16}/>  : <EyeIcon size={16}/>
+          }
+            {project.isPublished ? "Unpublish" : "Publish"}
+            </button>
+        </div>
       </div>
     </div>
   ) : (
