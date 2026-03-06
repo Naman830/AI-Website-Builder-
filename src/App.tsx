@@ -34,7 +34,7 @@ const App = () => {
         <Route path="/community" element={<Community />} />
         <Route path="/view/:projectId" element={<View />} />
       </Routes>
-      {!hideFooter && <Navbar />}
+      {!hideFooter && <Footer />}
     </div>
   );
 };
