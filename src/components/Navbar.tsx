@@ -8,7 +8,7 @@ export const Navbar = () => {
   const navigate = useNavigate();
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 glass-nav border-b border-border-dark">
+    <nav className="top-0 left-0 right-0 z-50 glass-nav border-b border-border-dark">
       <div className="relative max-w-[1280px] mx-auto px-6 h-20 flex items-center">
         {/* Left */}
         <Link to="/" className="flex items-center gap-3 text-white">
