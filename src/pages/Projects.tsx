@@ -14,9 +14,15 @@ import {
   TabletIcon,
   XIcon,
 } from "lucide-react";
-import { dummyConversations, dummyProjects, dummyVersion } from "../assets/assets";
+import {
+  dummyConversations,
+  dummyProjects,
+  dummyVersion,
+} from "../assets/assets";
 import Sidebar from "../components/projects/Sidebar";
-import ProjectPreview, { type ProjectPreviewRef } from "../components/projects/ProjectPreview";
+import ProjectPreview, {
+  type ProjectPreviewRef,
+} from "../components/projects/ProjectPreview";
 
 const Projects = () => {
   const { projectId } = useParams();
@@ -33,29 +39,42 @@ const Projects = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
 
-  const previewRef = useRef<ProjectPreviewRef>(null)
+  const previewRef = useRef<ProjectPreviewRef>(null);
 
   const fetchProject = async () => {
     const project = dummyProjects.find((project) => project.id === projectId);
     setTimeout(() => {
       if (project) {
-        setProject({ ...project, conversation: dummyConversations, versions:dummyVersion });
+        setProject({
+          ...project,
+          conversation: dummyConversations,
+          versions: dummyVersion,
+        });
         setLoading(false);
         setIsGenerating(project.current_code ? false : true);
       }
     }, 1000);
   };
 
-  const saveProject = async () => {
+  const saveProject = async () => {};
 
-  }
-
-  const downloadCode = ()  => {
-
-  }
-  const togglePublish = async () => {
-
-  }
+  // Download Code ( index.html )
+  const downloadCode = () => {
+    const code = previewRef.current?.getCode() || project?.current_code;
+    if (!code) {
+      if (isGenerating) {
+        return;
+      }
+      return;
+    }
+    const element = document.createElement("a");
+    const file = new Blob([code], { type: "text/html" });
+    element.href = URL.createObjectURL(file);
+    element.download = "index.html";
+    document.body.appendChild(element);
+    element.click();
+  };
+  const togglePublish = async () => {};
 
   useEffect(() => {
     fetchProject();
@@ -123,7 +142,7 @@ const Projects = () => {
         {/* right */}
         <div className="flex items-center justify-end gap-3 flex-1 text-xs sm:text-sm">
           <button
-          onClick={saveProject}
+            onClick={saveProject}
             disabled={isSaving}
             className="max-sm:hidden bg-gray-800 hover:bg-gray-700 text-white px-3.5 py-1 flex items-center gap-2 rounded sm:rounded-sm-transition-colors border border-gray-700"
           >
@@ -142,14 +161,16 @@ const Projects = () => {
             <FullscreenIcon size={16} />
             Preview
           </Link>
-          <button 
-          onClick={downloadCode}
-          className="bg-linear-to-br from-blue-700 to-blue-600 hover:from-blue-600 hover:to-blue-500 text-white px-3.5 py-1 flex items-center gap-2 rounded sm:rounded-sm transition-colors">
+          <button
+            onClick={downloadCode}
+            className="bg-linear-to-br from-blue-700 to-blue-600 hover:from-blue-600 hover:to-blue-500 text-white px-3.5 py-1 flex items-center gap-2 rounded sm:rounded-sm transition-colors"
+          >
             <ArrowBigDownDashIcon size={16} /> Download
           </button>
-          <button 
-          onClick={togglePublish}
-          className="bg-linear-to-br from-blue-700 to-blue-600 hover:from-blue-600 hover:to-blue-500 text-white px-3.5 py-1 flex items-center gap-2 rounded sm:rounded-sm transition-colors">
+          <button
+            onClick={togglePublish}
+            className="bg-linear-to-br from-blue-700 to-blue-600 hover:from-blue-600 hover:to-blue-500 text-white px-3.5 py-1 flex items-center gap-2 rounded sm:rounded-sm transition-colors"
+          >
             {project.isPublished ? (
               <EyeOffIcon size={16} />
             ) : (
@@ -162,11 +183,22 @@ const Projects = () => {
 
       {/* Content */}
       <div className="flex-1 flex overflow-auto">
-            <Sidebar isMenuOpen={isMenuOpen} project={project} setProject={(p) => setProject(p) } isGenerating={isGenerating} setIsGenerating={setIsGenerating}/>
+        <Sidebar
+          isMenuOpen={isMenuOpen}
+          project={project}
+          setProject={(p) => setProject(p)}
+          isGenerating={isGenerating}
+          setIsGenerating={setIsGenerating}
+        />
 
-            <div className="flex-1 p-2 pl-0 ">
-             <ProjectPreview ref={previewRef} project={project} isGenerating={isGenerating} device={device}/>
-            </div>
+        <div className="flex-1 p-2 pl-0 ">
+          <ProjectPreview
+            ref={previewRef}
+            project={project}
+            isGenerating={isGenerating}
+            device={device}
+          />
+        </div>
       </div>
     </div>
   ) : (
