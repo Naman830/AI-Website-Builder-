@@ -1,4 +1,4 @@
-import { forwardRef, useRef } from "react";
+import { forwardRef, useImperativeHandle, useRef } from "react";
 import type { Project } from "../../types";
 import { iframeScript } from "../../assets/assets";
 import { useState, useEffect } from "react";
@@ -29,7 +29,33 @@ const ProjectPreview = forwardRef<ProjectPreviewRef, ProjectPreviewProps>(
       desktop: "w-full",
     };
 
-    
+    useImperativeHandle(ref, () => ({
+      getCode: () => {
+        const doc = iframeRef.current?.contentDocument;
+        if (!doc) return undefined;
+
+        // 1. Remove our selection class / attributes / outline from all elements
+
+        doc
+          .querySelectorAll(".ai-selected-element, [data-ai-selected]")
+          .forEach((el) => {
+            el.classList.remove("ai-selected-element");
+            el.removeAttribute("data-ai-selected");
+            (el as HTMLElement).style.outline = "";
+          });
+
+          // 2. Remove injected style + script from the document 
+          const previewStyle = doc.getElementById('ai-preview-style');
+          if (previewStyle) previewStyle.remove();
+
+          const previewScript = doc.getElementById('ai-preview-script');
+          if(previewScript) previewScript.remove()
+
+          // 3. Serialize clean Html
+          const html = doc.documentElement.outerHTML;
+          return html
+      },
+    }));
 
     useEffect(() => {
       const handleMessage = (event: MessageEvent) => {
@@ -44,14 +70,16 @@ const ProjectPreview = forwardRef<ProjectPreviewRef, ProjectPreviewProps>(
     }, []);
 
     const handleUpdate = (updates: any) => {
-        if (iframeRef.current?.contentWindow) {
-            iframeRef.current.contentWindow.postMessage({
-                type: 'UPDATE_ELEMENT',
-                payload: updates
-            }, '*')
-        }
-    }
-
+      if (iframeRef.current?.contentWindow) {
+        iframeRef.current.contentWindow.postMessage(
+          {
+            type: "UPDATE_ELEMENT",
+            payload: updates,
+          },
+          "*",
+        );
+      }
+    };
 
     const injectPreview = (html: string) => {
       if (!html) return "";
