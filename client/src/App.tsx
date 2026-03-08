@@ -9,6 +9,7 @@ import View from "@/pages/View";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Toaster } from "@/components/ui/sonner"
+import AuthPage from "./pages/auth/AuthPage";
 
 const App = () => {
   const { pathname } = useLocation();
@@ -35,6 +36,7 @@ const App = () => {
         <Route path="/preview/:projectId/:version" element={<Preview />} />
         <Route path="/community" element={<Community />} />
         <Route path="/view/:projectId" element={<View />} />
+        <Route path="/auth/:pathname" element={<AuthPage />} />
       </Routes>
       {!hideFooter && <Footer />}
     </div>
