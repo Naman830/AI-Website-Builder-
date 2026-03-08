@@ -8,6 +8,7 @@ import Community from "@/pages/Community";
 import View from "@/pages/View";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { Toaster } from "@/components/ui/sonner"
 
 const App = () => {
   const { pathname } = useLocation();
@@ -23,6 +24,7 @@ const App = () => {
     pathname.startsWith("/preview/");
   return (
     <div>
+       <Toaster />
       {!hideNavbar && <Navbar />}
       <Routes>
         <Route path="/" element={<Home />} />

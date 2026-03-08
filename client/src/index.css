@@ -10,6 +10,8 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@import "@daveyplate/better-auth-ui/css";
+
 @theme {
   --font-display: "Space Grotesk", sans-serif;
 
