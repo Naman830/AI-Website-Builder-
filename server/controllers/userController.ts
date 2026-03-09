@@ -105,6 +105,17 @@ Return ONLY the enhanced prompt, nothing else. Make it detailed but concise (2-3
         }
       ],
     });
+
+    // ENHANCED PROMPT
+    const enhancedPrompt = promptEnhanceResponse.choices[0].message.content;
+
+    await prisma.conversation.create({
+      data: {
+        role: 'assistant',
+        content: `I've enhanced your prompt to: "${enhancedPrompt}"`,
+        projectId: project.id
+      }
+    })
   } catch (error: any) {
     console.log();
     console.log(error.code || error.message);
