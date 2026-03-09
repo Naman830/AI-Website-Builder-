@@ -256,3 +256,32 @@ export const getUserProjectS = async (req: Request, res: Response) => {
     return res.status(500).json({ message: error.message });
   }
 };
+
+// TOGGLE PROJECT PUBLISH BY USER
+export const tooglePublish = async (req: Request, res: Response) => {
+  try {
+    const userId = req.userId;
+    if (!userId) {
+      return res.status(401).json({ message: "Unauthorized User" });
+    }
+    const { projectId } = req.params;
+    const project = await prisma.websiteProject.findUnique({
+      where: { id: projectId, userId },
+    });
+
+    if (!project) {
+      return res.status(404).json({ message: "Project Not Found" });
+    }
+
+    await prisma.websiteProject.update({
+      where: { id: projectId },
+      data: { isPublished: !project.isPublished },
+    });
+
+    res.json({ message: project.isPublished? 'Project Unpublished' : 'Project Published Successfully'});
+  } catch (error: any) {
+    console.log();
+    console.log(error.code || error.message);
+    return res.status(500).json({ message: error.message });
+  }
+};
