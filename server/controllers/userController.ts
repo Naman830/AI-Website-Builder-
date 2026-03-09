@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import prisma from "../lib/prisma.js";
+import openai from "../configs/openai.js";
 
 // GET USER CRREDITS
 export const getUserCredits = async (req: Request, res: Response) => {
@@ -24,7 +25,6 @@ export const getUserCredits = async (req: Request, res: Response) => {
 };
 
 // CREATE USER PROJECT
-
 export const createUserProject = async (req: Request, res: Response) => {
   const userId = req.userId;
   try {
@@ -78,6 +78,32 @@ export const createUserProject = async (req: Request, res: Response) => {
 
     res.json({
       projectId: project.id,
+    });
+
+    // ENHANCE USER PROMPT
+    const promptEnhanceResponse = await openai.chat.completions.create({
+      model: "z-ai/glm-4.5-air:free",
+      messages: [
+        {
+          role: "system",
+          content: `
+You are a prompt enhancement specialist. Take the user's website request and expand it into a detailed, comprehensive prompt that will help create the best possible website.
+
+  Enhance this prompt by:
+  1. Adding specific design details (layout, color scheme, typography)
+    2. Specifying key sections and features
+    3. Describing the user experience and interactions
+    4. Including modern web design best practices
+    5. Mentioning responsive design requirements
+    6. Adding any missing but important elements
+
+Return ONLY the enhanced prompt, nothing else. Make it detailed but concise (2-3 paragraphs max).`,
+        },
+        {
+          role: 'user',
+          content: initial_prompt
+        }
+      ],
     });
   } catch (error: any) {
     console.log();
