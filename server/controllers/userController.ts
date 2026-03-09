@@ -278,10 +278,18 @@ export const tooglePublish = async (req: Request, res: Response) => {
       data: { isPublished: !project.isPublished },
     });
 
-    res.json({ message: project.isPublished? 'Project Unpublished' : 'Project Published Successfully'});
+    res.json({
+      message: project.isPublished
+        ? "Project Unpublished"
+        : "Project Published Successfully",
+    });
   } catch (error: any) {
     console.log();
     console.log(error.code || error.message);
     return res.status(500).json({ message: error.message });
   }
+};
+
+// PURCHASE CREDITS (LOGIN IS NOT WRITTEN YET)
+export const purchaseCredits = async (req: Request, res: Response) => {
 };
