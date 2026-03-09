@@ -181,12 +181,25 @@ You are an expert web developer. Create a complete, production-ready, single-pag
       data: {
         role: 'assistant',
         content: "I've Created your Website! You can now preview it and request any changes.",
-        projectId: project.id;
+        projectId: project.id,
       }
     })
 
+    await prisma.websiteProject.update({
+      where: {id: project.id},
+      data: {
+        current_code: code.replace(/```[a-z]*\n?/gi, '')
+        .replace(/```$/g,'')
+        .trim(),
+        current_version_index: version.id
+      }
+    })
 
   } catch (error: any) {
+    await prisma.user.update({
+      where: {id: userId},
+      data: {credits: {increment: 5}}
+    })
     console.log();
     console.log(error.code || error.message);
     return res.status(500).json({ message: error.message });
