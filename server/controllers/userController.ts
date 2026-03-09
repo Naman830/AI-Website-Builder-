@@ -166,6 +166,26 @@ You are an expert web developer. Create a complete, production-ready, single-pag
     });
 
     const code = codeGenerationResponse.choices[0].message.content || '';
+
+    // Create Version for the project 
+    const version = await prisma.version.create({
+      data:{
+        code: code.replace(/```[a-z]*\n?/gi, '')
+        .replace(/```$/g,'')
+        .trim(),
+        description: 'Initial Version',
+        projectId: project.id
+      }
+    })
+    await prisma.conversation.create({
+      data: {
+        role: 'assistant',
+        content: "I've Created your Website! You can now preview it and request any changes.",
+        projectId: project.id;
+      }
+    })
+
+
   } catch (error: any) {
     console.log();
     console.log(error.code || error.message);
