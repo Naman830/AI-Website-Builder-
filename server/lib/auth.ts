@@ -12,6 +12,11 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
   },
+
+  user: {
+    deleteUser: { enabled: true },
+  },
+
   trustedOrigins,
   baseURL: process.env.BETTER_AUTH_URL!,
   secret: process.env.BETTER_AUTH_SECRET!,
@@ -20,12 +25,12 @@ export const auth = betterAuth({
       session_token: {
         name: "auth_session",
         attributes: {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            // If env is in development we use lax 
-            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-            path: '/',
-        }
+          httpOnly: true,
+          secure: process.env.NODE_ENV === "production",
+          // If env is in development we use lax
+          sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+          path: "/",
+        },
       },
     },
   },
