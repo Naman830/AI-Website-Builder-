@@ -2,10 +2,15 @@ import { Box, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { useNavigate, Link } from "react-router-dom";
+import { authClient } from "@/lib/auth-client";
+import {UserButton} from '@daveyplate/better-auth-ui'
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
+
+  const {data: session} = authClient.useSession()
+
 
   return (
     <nav className="top-0 left-0 right-0 z-50 glass-nav border-b border-border-dark">
@@ -38,12 +43,19 @@ export const Navbar = () => {
         {/* Right */}
         <div className="ml-auto flex items-center gap-4">
           {/* Desktop CTA */}
-          <button
+          {!session?.user ? (
+
+            <button
             onClick={() => navigate("/auth/signin")}
             className="hidden md:flex items-center justify-center rounded-full h-10 px-6 bg-primary text-white text-sm font-semibold transition-all duration-300 shadow-[0_0_12px_rgba(91,19,236,0.25)] hover:shadow-[0_0_18px_rgba(91,19,236,0.35)] hover:-translate-y-[1px] active:translate-y-0"
           >
             Get Started
           </button>
+          ): (
+            <UserButton size='icon'/>
+          )
+            
+        }
 
           {/* Mobile Menu Button */}
           <button
