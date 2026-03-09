@@ -159,47 +159,77 @@ You are an expert web developer. Create a complete, production-ready, single-pag
     The HTML should be complete and ready to render as-is with Tailwind CSS.`,
         },
         {
-          role: 'user',
-          content: enhancedPrompt || ''
-        }
+          role: "user",
+          content: enhancedPrompt || "",
+        },
       ],
     });
 
-    const code = codeGenerationResponse.choices[0].message.content || '';
+    const code = codeGenerationResponse.choices[0].message.content || "";
 
-    // Create Version for the project 
+    // Create Version for the project
     const version = await prisma.version.create({
-      data:{
-        code: code.replace(/```[a-z]*\n?/gi, '')
-        .replace(/```$/g,'')
-        .trim(),
-        description: 'Initial Version',
-        projectId: project.id
-      }
-    })
+      data: {
+        code: code
+          .replace(/```[a-z]*\n?/gi, "")
+          .replace(/```$/g, "")
+          .trim(),
+        description: "Initial Version",
+        projectId: project.id,
+      },
+    });
     await prisma.conversation.create({
       data: {
-        role: 'assistant',
-        content: "I've Created your Website! You can now preview it and request any changes.",
+        role: "assistant",
+        content:
+          "I've Created your Website! You can now preview it and request any changes.",
         projectId: project.id,
-      }
-    })
+      },
+    });
 
     await prisma.websiteProject.update({
-      where: {id: project.id},
+      where: { id: project.id },
       data: {
-        current_code: code.replace(/```[a-z]*\n?/gi, '')
-        .replace(/```$/g,'')
-        .trim(),
-        current_version_index: version.id
-      }
-    })
-
+        current_code: code
+          .replace(/```[a-z]*\n?/gi, "")
+          .replace(/```$/g, "")
+          .trim(),
+        current_version_index: version.id,
+      },
+    });
   } catch (error: any) {
     await prisma.user.update({
-      where: {id: userId},
-      data: {credits: {increment: 5}}
-    })
+      where: { id: userId },
+      data: { credits: { increment: 5 } },
+    });
+    console.log();
+    console.log(error.code || error.message);
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+// GET A SINGLE USER PROJECT
+export const getUserProject = async (req: Request, res: Response) => {
+  try {
+    const userId = req.userId;
+    if (!userId) {
+      return res.status(401).json({ message: "Unauthorized User" });
+    }
+
+    const { projectId } = req.params;
+
+    const project = await prisma.websiteProject.findUnique({
+      where: { id: projectId, userId },
+      include: {
+        conversation: {
+          orderBy: { timestamp: "asc" },
+        },
+        versions: { orderBy: { timestamp: "asc" } },
+      },
+    });
+
+    res.json({ project });
+  } catch (error: any) {
     console.log();
     console.log(error.code || error.message);
     return res.status(500).json({ message: error.message });
