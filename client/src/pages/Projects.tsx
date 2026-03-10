@@ -14,15 +14,14 @@ import {
   TabletIcon,
   XIcon,
 } from "lucide-react";
-import {
-  dummyConversations,
-  dummyProjects,
-  dummyVersion,
-} from "../assets/assets";
+
 import Sidebar from "../components/projects/Sidebar";
 import ProjectPreview, {
   type ProjectPreviewRef,
 } from "../components/projects/ProjectPreview";
+import api from "@/configs/axios";
+import { toast } from "sonner";
+import { authClient } from "@/lib/auth-client";
 
 const Projects = () => {
   const { projectId } = useParams();
@@ -30,6 +29,8 @@ const Projects = () => {
 
   const [project, setProject] = useState<Project | null>(null);
   const [loading, setLoading] = useState(true);
+
+  const { data: session, isPending } = authClient.useSession();
 
   const [isGenerating, setIsGenerating] = useState(true);
   const [device, setDevice] = useState<"phone" | "tablet" | "desktop">(
@@ -42,18 +43,15 @@ const Projects = () => {
   const previewRef = useRef<ProjectPreviewRef>(null);
 
   const fetchProject = async () => {
-    const project = dummyProjects.find((project) => project.id === projectId);
-    setTimeout(() => {
-      if (project) {
-        setProject({
-          ...project,
-          conversation: dummyConversations,
-          versions: dummyVersion,
-        });
-        setLoading(false);
-        setIsGenerating(project.current_code ? false : true);
-      }
-    }, 1000);
+    try {
+      const { data } = await api.get(`/api/user/project/${projectId}`);
+      setProject(data.project);
+      setIsGenerating(data.project.current_code ? false : true);
+      setLoading(false);
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message || error.message);
+      console.log(error);
+    }
   };
 
   const saveProject = async () => {};
@@ -77,8 +75,20 @@ const Projects = () => {
   const togglePublish = async () => {};
 
   useEffect(() => {
-    fetchProject();
-  }, []);
+    if (session?.user) {
+      fetchProject();
+    } else if (!isPending && !session?.user) {
+      navigate("/");
+      toast("Please login to view your projects");
+    }
+  }, [session?.user]);
+
+  useEffect(() => {
+    if (project && !project.current_code) {
+      const intervalId = setInterval(fetchProject, 10000);
+      return () => clearInterval(intervalId);
+    }
+  }, [project]);
 
   if (loading) {
     return (
