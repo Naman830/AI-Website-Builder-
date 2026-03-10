@@ -86,7 +86,7 @@ if (!initial_prompt || typeof initial_prompt !== "string") {
 
     // ENHANCE USER PROMPT
     const promptEnhanceResponse = await openai.chat.completions.create({
-      model: "z-ai/glm-4.5-air:free",
+      model: "kwaipilot/kat-coder-pro:free",
       messages: [
         {
           role: "system",
@@ -131,7 +131,7 @@ Return ONLY the enhanced prompt, nothing else. Make it detailed but concise (2-3
 
     // Generate Website Code
     const codeGenerationResponse = await openai.chat.completions.create({
-      model: "z-ai/glm-4.5-air:free",
+      model: "kwaipilot/kat-coder-pro:free",
       messages: [
         {
           role: "system",

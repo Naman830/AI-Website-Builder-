@@ -54,7 +54,7 @@ export const makeRevision = async (req: Request, res: Response) => {
 
     // Enhance user prompt
     const promptEnhanceResponse = await openai.chat.completions.create({
-      model: "z-ai/glm-4.5-air:free",
+      model: "kwaipilot/kat-coder-pro:free",
       messages: [
         {
           role: "system",
@@ -96,7 +96,7 @@ Return ONLY the enhanced request, nothing else. Keep it concise (1-2 sentences).
 
     // GERNATE WEBSITE CODE
     const codeGenerationResponse = await openai.chat.completions.create({
-      model: "z-ai/glm-4.5-air:free",
+      model: "kwaipilot/kat-coder-pro:free",
       messages: [
         {
           role: "system",
@@ -208,7 +208,7 @@ export const rollbackToVersion = async (req: Request, res: Response) => {
         role: "assistant",
         content:
           "I've rolled back your website to selected version. You can now preview it",
-          projectId
+        projectId,
       },
     });
     res.json({ message: "Version rolled back" });
