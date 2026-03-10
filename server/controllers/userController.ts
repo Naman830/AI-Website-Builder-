@@ -28,11 +28,11 @@ export const getUserCredits = async (req: Request, res: Response) => {
 export const createUserProject = async (req: Request, res: Response) => {
   const userId = req.userId;
   try {
-   const { initial_prompt } = req.body;
+    const { initial_prompt } = req.body;
 
-if (!initial_prompt || typeof initial_prompt !== "string") {
-  return res.status(400).json({ message: "initial_prompt is required" });
-}
+    if (!initial_prompt || typeof initial_prompt !== "string") {
+      return res.status(400).json({ message: "initial_prompt is required" });
+    }
 
     if (!userId) {
       return res.status(401).json({ message: "Unauthorized User" });
@@ -80,13 +80,13 @@ if (!initial_prompt || typeof initial_prompt !== "string") {
       data: { totalCreation: { increment: 1 } },
     });
 
-    res.json({
-      projectId: project.id,
-    });
+   res.json({
+  projectId: project.id,
+});
 
     // ENHANCE USER PROMPT
     const promptEnhanceResponse = await openai.chat.completions.create({
-      model: "kwaipilot/kat-coder-pro:free",
+     model: "deepseek/deepseek-chat",
       messages: [
         {
           role: "system",
@@ -131,7 +131,7 @@ Return ONLY the enhanced prompt, nothing else. Make it detailed but concise (2-3
 
     // Generate Website Code
     const codeGenerationResponse = await openai.chat.completions.create({
-      model: "kwaipilot/kat-coder-pro:free",
+      model: "deepseek/deepseek-chat",
       messages: [
         {
           role: "system",
@@ -170,6 +170,21 @@ You are an expert web developer. Create a complete, production-ready, single-pag
     });
 
     const code = codeGenerationResponse.choices[0].message.content || "";
+    if (!code) {
+      await prisma.conversation.create({
+        data: {
+          role: "assistant",
+          content: "Unable to gernate the code plz try again",
+          projectId: project.id,
+        },
+      });
+
+      await prisma.user.update({
+        where: { id: userId },
+        data: { credits: { increment: 5 } },
+      });
+      return;
+    }
 
     // Create Version for the project
     const version = await prisma.version.create({
@@ -295,5 +310,4 @@ export const tooglePublish = async (req: Request, res: Response) => {
 };
 
 // PURCHASE CREDITS (LOGIN IS NOT WRITTEN YET)
-export const purchaseCredits = async (req: Request, res: Response) => {
-};
+export const purchaseCredits = async (req: Request, res: Response) => {};

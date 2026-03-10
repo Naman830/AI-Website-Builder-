@@ -54,7 +54,7 @@ export const makeRevision = async (req: Request, res: Response) => {
 
     // Enhance user prompt
     const promptEnhanceResponse = await openai.chat.completions.create({
-      model: "kwaipilot/kat-coder-pro:free",
+   model: "deepseek/deepseek-chat",
       messages: [
         {
           role: "system",
@@ -96,7 +96,7 @@ Return ONLY the enhanced request, nothing else. Keep it concise (1-2 sentences).
 
     // GERNATE WEBSITE CODE
     const codeGenerationResponse = await openai.chat.completions.create({
-      model: "kwaipilot/kat-coder-pro:free",
+model: "deepseek/deepseek-chat",
       messages: [
         {
           role: "system",
@@ -125,6 +125,23 @@ You are an expert web developer.
     });
 
     const code = codeGenerationResponse.choices[0].message.content || "";
+
+    if (!code) {
+      await prisma.conversation.create({
+        data: {
+          role: "assistant",
+          content: "Unable to gernate the code plz try again",
+          projectId,
+        },
+      });
+
+      await prisma.user.update({
+        where: { id: userId },
+        data: { credits: { increment: 5 } },
+      });
+      return;
+    }
+
     const version = await prisma.version.create({
       data: {
         code: code
