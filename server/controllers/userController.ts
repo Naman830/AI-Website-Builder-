@@ -80,13 +80,13 @@ export const createUserProject = async (req: Request, res: Response) => {
       data: { totalCreation: { increment: 1 } },
     });
 
-   res.json({
-  projectId: project.id,
-});
+    res.json({
+      projectId: project.id,
+    });
 
     // ENHANCE USER PROMPT
     const promptEnhanceResponse = await openai.chat.completions.create({
-     model: "deepseek/deepseek-chat",
+      model: "deepseek/deepseek-chat",
       messages: [
         {
           role: "system",
@@ -169,7 +169,28 @@ You are an expert web developer. Create a complete, production-ready, single-pag
       ],
     });
 
-    const code = codeGenerationResponse.choices[0].message.content || "";
+    let code = codeGenerationResponse.choices[0].message.content || "";
+
+    // Remove markdown code blocks
+    code = code
+      .replace(/```[a-z]*\n?/gi, "")
+      .replace(/```$/g, "")
+      .trim();
+
+    // Extract only HTML starting point
+    const htmlStart = code.indexOf("<!DOCTYPE");
+
+    if (htmlStart !== -1) {
+      code = code.substring(htmlStart);
+    } else {
+      const htmlTagStart = code.indexOf("<html");
+      if (htmlTagStart !== -1) {
+        code = code.substring(htmlTagStart);
+      }
+    }
+
+    code = code.trim();
+
     if (!code) {
       await prisma.conversation.create({
         data: {
@@ -178,7 +199,6 @@ You are an expert web developer. Create a complete, production-ready, single-pag
           projectId: project.id,
         },
       });
-
       await prisma.user.update({
         where: { id: userId },
         data: { credits: { increment: 5 } },
