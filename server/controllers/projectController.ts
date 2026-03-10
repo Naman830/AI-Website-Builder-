@@ -303,13 +303,13 @@ export const getProjectById = async (req: Request, res: Response) => {
 // SAVE PROJECT CODE
 export const saveProjectCode = async (req: Request, res: Response) => {
   try {
-    const userId = req.userId
+    const userId = req.userId;
     const { projectId } = req.params;
 
-    const {code} = req.body;
+    const { code } = req.body;
 
     if (!userId) {
-      return res.status(401).json({ message: 'Unauthorized '})
+      return res.status(401).json({ message: "Unauthorized " });
     }
 
     if (!code) {
@@ -317,19 +317,19 @@ export const saveProjectCode = async (req: Request, res: Response) => {
     }
 
     const project = await prisma.websiteProject.findUnique({
-      where: {id: projectId, userId}
-    })
+      where: { id: projectId, userId },
+    });
 
     if (!project) {
-      return res.status(404).json({ message: 'Project not found'})
+      return res.status(404).json({ message: "Project not found" });
     }
 
     await prisma.websiteProject.update({
-      where: {id: projectId},
-      data: {current_code: code, current_version_index: ''}
-    })
+      where: { id: projectId },
+      data: { current_code: code, current_version_index: "" },
+    });
 
-    res.json({ messsage: 'Project saved successfully'});
+    res.json({ messsage: "Project saved successfully" });
   } catch (error: any) {
     console.log();
     console.log(error.code || error.message);

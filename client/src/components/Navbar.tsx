@@ -1,15 +1,35 @@
 import { Box, Menu, X } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { useNavigate, Link } from "react-router-dom";
 import { authClient } from "@/lib/auth-client";
 import {UserButton} from '@daveyplate/better-auth-ui'
+import api from "@/configs/axios";
+import { toast } from "sonner";
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
+  const [credits, setCredits] = useState(0)
 
   const {data: session} = authClient.useSession()
+
+
+  const getCredits = async () => {
+    try {
+      const {data} = await api.get('/api/user/credits')
+      setCredits(data.credits)
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message || error.message)
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    if (session?.user) {
+      getCredits()
+    }
+  }, [session?.user]);
 
 
   return (
@@ -52,7 +72,10 @@ export const Navbar = () => {
             Get Started
           </button>
           ): (
+            <>
+              <button className="bg-white/10 px-5 py-1.5 text-xs sm:text-sm border text-gray-200 rounded-full">Credits : <span className="text-indigo-300">{credits}</span></button>
             <UserButton size='icon'/>
+            </>
           )
             
         }
