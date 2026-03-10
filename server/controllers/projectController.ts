@@ -266,14 +266,34 @@ export const getProjectPreview = async (req: Request, res: Response) => {
 // GET PUBLISHED PROJECT
 export const getPublishedProject = async (req: Request, res: Response) => {
   try {
-
     const projects = await prisma.websiteProject.findMany({
-      where: { isPublished: true},
+      where: { isPublished: true },
       include: { user: true },
     });
 
-
     res.json({ projects });
+  } catch (error: any) {
+    console.log();
+    console.log(error.code || error.message);
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+// GET A SINGLE PROJECT BY ID
+export const getProjectById = async (req: Request, res: Response) => {
+  try {
+
+    const {projectId} = req.params;
+
+    const project = await prisma.websiteProject.findFirst({
+      where: { id: projectId },
+    });
+
+    if (!project || project.isPublished === false || !project?.current_code) {
+    return res.status(404).json({ message: 'Project Not Found' });
+    }
+
+    res.json({ project });
   } catch (error: any) {
     console.log();
     console.log(error.code || error.message);
