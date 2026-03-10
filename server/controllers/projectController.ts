@@ -208,6 +208,7 @@ export const rollbackToVersion = async (req: Request, res: Response) => {
         role: "assistant",
         content:
           "I've rolled back your website to selected version. You can now preview it",
+          projectId
       },
     });
     res.json({ message: "Version rolled back" });

@@ -28,7 +28,11 @@ export const getUserCredits = async (req: Request, res: Response) => {
 export const createUserProject = async (req: Request, res: Response) => {
   const userId = req.userId;
   try {
-    const { initial_prompt } = req.body;
+   const { initial_prompt } = req.body;
+
+if (!initial_prompt || typeof initial_prompt !== "string") {
+  return res.status(400).json({ message: "initial_prompt is required" });
+}
 
     if (!userId) {
       return res.status(401).json({ message: "Unauthorized User" });

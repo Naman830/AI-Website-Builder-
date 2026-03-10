@@ -1,3 +1,8 @@
+
+process.on("uncaughtException", (err) => {
+  console.error("UNCAUGHT ERROR:", err.stack);
+});
+
 import "dotenv/config";
 import express, { Request, Response } from "express";
 import cors from "cors";
@@ -6,6 +11,8 @@ import { toNodeHandler } from "better-auth/node";
 import { auth } from "./lib/auth.js";
 import userRouter from "./routes/userRoutes.js";
 import projectRouter from "./routes/projectRoutes.js";
+
+
 
 const app = express();
 const port = process.env.PORT || 3000;
