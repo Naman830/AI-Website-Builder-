@@ -217,3 +217,49 @@ export const rollbackToVersion = async (req: Request, res: Response) => {
     return res.status(500).json({ message: error.message });
   }
 };
+
+// DELETE ANY PROJECT
+export const deleteProject = async (req: Request, res: Response) => {
+  try {
+    const userId = req.userId;
+    const { projectId } = req.params;
+
+    await prisma.websiteProject.delete({
+      where: { id: projectId, userId },
+    });
+
+    res.json({ message: "Project Deleted Successfully" });
+  } catch (error: any) {
+    console.log();
+    console.log(error.code || error.message);
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+// GETTING PROJECT CODE FOR PREVIEW
+export const getProjectPreview = async (req: Request, res: Response) => {
+  try {
+    const userId = req.userId;
+    const { projectId } = req.params;
+
+    if (!userId) {
+      return res.status(401).json({ message: 'Unauthorized'})
+    }
+    
+
+    const project = await prisma.websiteProject.findFirst({
+      where: { id: projectId, userId },
+      include: {versions: true}
+    });
+
+    if (!project) {
+      return res.status(404).json({ message: 'Project not found'})
+    }
+
+    res.json({ project });
+  } catch (error: any) {
+    console.log();
+    console.log(error.code || error.message);
+    return res.status(500).json({ message: error.message });
+  }
+};
