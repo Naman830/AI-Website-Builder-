@@ -88,21 +88,11 @@ const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
       data: { totalCreation: { increment: 1 } },
     });
 
-<<<<<<< HEAD
-    res.json({
-      projectId: project.id,
-    });
-
-    // ENHANCE USER PROMPT
-    const promptEnhanceResponse = await openai.chat.completions.create({
-      model: "deepseek/deepseek-chat",
-=======
     res.json({projectId: project.id})
 
     // ENHANCE USER PROMPT
     const promptEnhanceResponse = await openai.chat.completions.create({
   model: "stepfun/step-3.5-flash:free",
->>>>>>> fix-model-limit
       messages: [
         {
           role: "system",
