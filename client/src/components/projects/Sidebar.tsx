@@ -1,7 +1,15 @@
+import api from "@/configs/axios";
 import type { Message, Project, Version } from "../../types";
-import { BotIcon, EyeIcon, Loader2Icon, SendIcon, UserIcon } from "lucide-react";
+import {
+  BotIcon,
+  EyeIcon,
+  Loader2Icon,
+  SendIcon,
+  UserIcon,
+} from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import { toast } from "sonner";
 
 interface SidebarProps {
   isMenuOpen: boolean;
@@ -19,18 +27,68 @@ const Sidebar = ({
   setIsGenerating,
 }: SidebarProps) => {
   const messageRef = useRef<HTMLDivElement>(null);
-
   const [input, setInput] = useState("");
 
-  const handleRollback = async (versionId: string) => {};
+  const fetchProject = async () => {
+    try {
+      const { data } = await api.get(`/api/user/project/${project.id}`);
+      setProject(data.project);
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message || error.message);
+      console.log(error);
+    }
+  };
+
+  const handleRollback = async (versionId: string) => {
+    try {
+      const confirm = window.confirm(
+        "Are you sure you want to rollback to this version?",
+      );
+      if (!confirm) return;
+      setIsGenerating(true);
+
+      const { data } = await api.get(
+        `/api/project/rollback/${project.id}/${versionId}`,
+      );
+      const { data: data2 } = await api.get(
+        `/api/user/project/${project.id}`,
+      );
+
+      toast.success(data.message);
+      setProject(data2.project);
+
+      setIsGenerating(false);
+    } catch (error : any) {
+      setIsGenerating(false);
+      toast.error(error?.response?.data?.message || error.message);
+      console.log(error);
+    }
+  };
 
   const handleRevisions = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsGenerating(true)
-    setTimeout(() => {
-      setIsGenerating(false)
-    }, 3000)
-  }
+    e.preventDefault();
+    setIsGenerating(true);
+    let interval: number | undefined;
+    try {
+      setIsGenerating(true);
+      interval = setInterval(() => {
+        fetchProject();
+      }, 10000);
+      const { data } = await api.post(`/api/project/revision/${project.id}`, {
+        message: input,
+      });
+      fetchProject();
+      toast.success(data.message);
+      setInput("");
+      clearInterval(interval);
+      setIsGenerating(false);
+    } catch (error: any) {
+      setIsGenerating(false);
+      toast.error(error?.response?.data?.message || error.message);
+      console.log(error);
+      clearInterval(interval);
+    }
+  };
 
   useEffect(() => {
     if (messageRef.current) {
@@ -152,13 +210,17 @@ const Sidebar = ({
               placeholder="Decribe your website or request changes..."
               className="flex-1 p-3 rounded-xl resize-none text-sm outline-none ring ring-gray-700 focus:ring-indigo-500 bg-gray-800 text-gray-100 placeholder-gray-400 transition-all"
               disabled={isGenerating}
-
             />
 
-            <button 
+            <button
               disabled={isGenerating || !input.trim()}
-            className="absolute bottom-2.5 right-2.5 rounded-full bg-linear-to-r from-indigo-600 hover:to-indigo-700 text-white transition-colors disabled:opacity-60">
-                {isGenerating ? <Loader2Icon className="size-7 p-1.5 animate-spin text-white " /> : <SendIcon className="size-7 p-1.5 text-white"/>}
+              className="absolute bottom-2.5 right-2.5 rounded-full bg-linear-to-r from-indigo-600 hover:to-indigo-700 text-white transition-colors disabled:opacity-60"
+            >
+              {isGenerating ? (
+                <Loader2Icon className="size-7 p-1.5 animate-spin text-white " />
+              ) : (
+                <SendIcon className="size-7 p-1.5 text-white" />
+              )}
             </button>
           </div>
         </form>

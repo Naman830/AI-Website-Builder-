@@ -27,6 +27,8 @@ export const getUserCredits = async (req: Request, res: Response) => {
 // CREATE USER PROJECT
 export const createUserProject = async (req: Request, res: Response) => {
   const userId = req.userId;
+  // ADD THIS HELPER FUNCTION
+const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
   try {
     const { initial_prompt } = req.body;
 
@@ -68,6 +70,12 @@ export const createUserProject = async (req: Request, res: Response) => {
       },
     });
 
+    // --- ADD THE DELAY HERE ---
+    // Wait for 4 seconds to bypass OpenRouter's free-tier rate limits
+    console.log("Waiting for rate limits to reset...");
+    await delay(4000); 
+    // --------------------------
+
     // DEDUCT CREDITS
     await prisma.user.update({
       where: { id: userId },
@@ -80,13 +88,11 @@ export const createUserProject = async (req: Request, res: Response) => {
       data: { totalCreation: { increment: 1 } },
     });
 
-   res.json({
-  projectId: project.id,
-});
+    res.json({projectId: project.id})
 
     // ENHANCE USER PROMPT
     const promptEnhanceResponse = await openai.chat.completions.create({
-     model: "deepseek/deepseek-chat",
+  model: "stepfun/step-3.5-flash:free",
       messages: [
         {
           role: "system",
@@ -131,7 +137,7 @@ Return ONLY the enhanced prompt, nothing else. Make it detailed but concise (2-3
 
     // Generate Website Code
     const codeGenerationResponse = await openai.chat.completions.create({
-      model: "deepseek/deepseek-chat",
+            model: "stepfun/step-3.5-flash:free",
       messages: [
         {
           role: "system",
@@ -169,7 +175,28 @@ You are an expert web developer. Create a complete, production-ready, single-pag
       ],
     });
 
-    const code = codeGenerationResponse.choices[0].message.content || "";
+    let code = codeGenerationResponse.choices[0].message.content || "";
+
+    // Remove markdown code blocks
+    code = code
+      .replace(/```[a-z]*\n?/gi, "")
+      .replace(/```$/g, "")
+      .trim();
+
+    // Extract only HTML starting point
+    const htmlStart = code.indexOf("<!DOCTYPE");
+
+    if (htmlStart !== -1) {
+      code = code.substring(htmlStart);
+    } else {
+      const htmlTagStart = code.indexOf("<html");
+      if (htmlTagStart !== -1) {
+        code = code.substring(htmlTagStart);
+      }
+    }
+
+    code = code.trim();
+
     if (!code) {
       await prisma.conversation.create({
         data: {
@@ -178,7 +205,6 @@ You are an expert web developer. Create a complete, production-ready, single-pag
           projectId: project.id,
         },
       });
-
       await prisma.user.update({
         where: { id: userId },
         data: { credits: { increment: 5 } },
@@ -216,14 +242,27 @@ You are an expert web developer. Create a complete, production-ready, single-pag
         current_version_index: version.id,
       },
     });
+
+    return res.status(200).json({ 
+      message: "Website generated successfully", 
+      projectId: project.id 
+    });
+
   } catch (error: any) {
     await prisma.user.update({
       where: { id: userId },
       data: { credits: { increment: 5 } },
     });
-    console.log();
+
     console.log(error.code || error.message);
-    return res.status(500).json({ message: error.message });
+    // 2. ONLY send a response if we haven't already sent one!
+    if (!res.headersSent) {
+      return res.status(500).json({ message: error.message });
+    } else {
+      // If headers were already sent, we just log the failure.
+      // (Optional: You could update the project status in DB to "FAILED" here so the frontend knows)
+      console.log("Background generation failed after response was sent.");
+    }
   }
 };
 
