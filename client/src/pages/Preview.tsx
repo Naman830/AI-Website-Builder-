@@ -1,30 +1,43 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { dummyProjects } from "../assets/assets";
 import { Loader2Icon } from "lucide-react";
 import ProjectPreview from "../components/projects/ProjectPreview";
-import type { Project } from "../types";
+import type { Project, Version } from "../types";
+import api from "@/configs/axios";
+import { toast } from "sonner";
+import { authClient } from "@/lib/auth-client";
 
 const Preview = () => {
+  const { data: session, isPending } = authClient.useSession();
+
   const { projectId, versionId } = useParams();
   const [code, setCode] = useState("");
   const [loading, setLoading] = useState(true);
 
   const fetchCode = async () => {
-    setTimeout(() => {
-      const code = dummyProjects.find(
-        (project) => project.id === projectId,
-      )?.current_code;
-      if (code) {
-        setCode(code);
-        setLoading(false);
+    try {
+      const { data } = await api.get(`/api/project/preview/${projectId}`);
+      setCode(data.project.current_code);
+      if (versionId) {
+        data.project.version.forEach((version: Version) => {
+          if (version.id === versionId) {
+            setCode(version.code);
+          }
+        });
       }
-    }, 2000);
+
+      setLoading(false);
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message || error.message);
+      console.log(error);
+    }
   };
 
   useEffect(() => {
-    fetchCode();
-  }, []); // dependency added
+    if (!isPending && session?.user) {
+      fetchCode();
+    }
+  }, [session?.user]); // dependency added
 
   if (loading) {
     return (
@@ -36,7 +49,7 @@ const Preview = () => {
 
   return (
     <div className="h-screen">
-          {code && (
+      {code && (
         <ProjectPreview
           project={{ current_code: code } as Project}
           isGenerating={false}
@@ -44,7 +57,7 @@ const Preview = () => {
         />
       )}
     </div>
-  )
+  );
 };
 
 export default Preview;
