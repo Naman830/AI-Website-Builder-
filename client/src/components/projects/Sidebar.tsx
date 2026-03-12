@@ -50,15 +50,23 @@ const Sidebar = ({
       const { data } = await api.get(
         `/api/project/rollback/${project.id}/${versionId}`,
       );
+<<<<<<< HEAD
       const { data: data2 } = await api.get(
         `/api/project/project/${project.id}`,
       );
+=======
+      const { data: data2 } = await api.get(`/api/user/project/${project.id}`);
+>>>>>>> fix-model-limit
 
       toast.success(data.message);
       setProject(data2.project);
 
       setIsGenerating(false);
+<<<<<<< HEAD
     } catch (error : any) {
+=======
+    } catch (error: any) {
+>>>>>>> fix-model-limit
       setIsGenerating(false);
       toast.error(error?.response?.data?.message || error.message);
       console.log(error);
@@ -67,7 +75,10 @@ const Sidebar = ({
 
   const handleRevisions = async (e: React.FormEvent) => {
     e.preventDefault();
+<<<<<<< HEAD
     setIsGenerating(true);
+=======
+>>>>>>> fix-model-limit
     let interval: number | undefined;
     try {
       setIsGenerating(true);
@@ -76,7 +87,11 @@ const Sidebar = ({
       }, 10000);
       const { data } = await api.post(`/api/project/revision/${project.id}`, {
         message: input,
+<<<<<<< HEAD
       });
+=======
+      }); 
+>>>>>>> fix-model-limit
       fetchProject();
       toast.success(data.message);
       setInput("");

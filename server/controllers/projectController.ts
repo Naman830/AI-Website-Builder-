@@ -54,7 +54,7 @@ export const makeRevision = async (req: Request, res: Response) => {
 
     // Enhance user prompt
     const promptEnhanceResponse = await openai.chat.completions.create({
-   model: "deepseek/deepseek-chat",
+       model: "stepfun/step-3.5-flash:free",
       messages: [
         {
           role: "system",
@@ -96,7 +96,7 @@ Return ONLY the enhanced request, nothing else. Keep it concise (1-2 sentences).
 
     // GERNATE WEBSITE CODE
     const codeGenerationResponse = await openai.chat.completions.create({
-model: "deepseek/deepseek-chat",
+  model: "stepfun/step-3.5-flash:free",
       messages: [
         {
           role: "system",
