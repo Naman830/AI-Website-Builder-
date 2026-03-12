@@ -71,12 +71,14 @@ const MyProjects = () => {
               <div className="flex flex-wrap gap-3.5">
                 {projects.map((project) => (
                   <div
-                    onClick={() => navigate(`/projects/${project.id}`)}
+                   
                     key={project.id}
                     className=" relative group w-72 max-sm:mx-auto cursor-pointer bg-gray-900/60 border-gray-700 rounded-lg overflow-hidden shadow-md group hover:shadow-indigo-700/30 hover:border-indigo-800/80 transition-all duration-300"
                   >
                     {/* DESKTOP LIKE MINI PREVIEW */}
-                    <div className="relative w-full h-40 bg-gray-900 overflow-hidden border-b border-gray-800 ">
+                    <div 
+                     onClick={() => navigate(`/projects/${project.id}`)}
+                    className="relative w-full h-40 bg-gray-900 overflow-hidden border-b border-gray-800 ">
                       {project.current_code ? (
                         <iframe
                           srcDoc={project.current_code}
