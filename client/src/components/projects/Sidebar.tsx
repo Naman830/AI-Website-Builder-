@@ -51,7 +51,7 @@ const Sidebar = ({
         `/api/project/rollback/${project.id}/${versionId}`,
       );
       const { data: data2 } = await api.get(
-        `/api/project/project/${project.id}`,
+        `/api/user/project/${project.id}`,
       );
 
       toast.success(data.message);
