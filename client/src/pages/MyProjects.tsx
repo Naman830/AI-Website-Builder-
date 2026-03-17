@@ -30,11 +30,14 @@ const MyProjects = () => {
       );
       if (!confirm) return;
       const { data } = await api.delete(`/api/project/${projectId}`);
-      toast.success(data.message);
-      fetchProject();
+      toast.success(data.message);  
+      // WE CAN USE BOTH HERE THIS AND ALSO fetchProject() for deleting project 
+      setProjects(prev => prev.filter(p => p.id !== projectId));
     } catch (error: any) {
       console.log(error);
       toast.error(error?.response?.data?.message || error.message);
+    } finally {
+      setLoading(false); //add setloading false
     }
   };
 
@@ -45,7 +48,7 @@ const MyProjects = () => {
       navigate("/");
       toast("Please login to view your project");
     }
-  }, [session?.user]);
+  }, [session, isPending]); // session?.user is problem in Useeffect it to add isPending
 
   return (
     <>
@@ -123,8 +126,7 @@ const MyProjects = () => {
                         className="flex justify-between items-center mt-5 "
                       >
                         <span className="text-[13px] text-gray-500">
-                          {project.createdAt &&
-                            new Date(project.createdAt).toLocaleDateString()}
+                          {new Date(project.createdAt || "").toLocaleDateString()}
                           {/* DATE FIXED */}
                         </span>
                       </div>
