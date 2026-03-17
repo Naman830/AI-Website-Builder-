@@ -182,11 +182,11 @@ const Projects = () => {
         ))}
       </div>
         {/* right */}
-        <div className="flex items-center justify-end gap-3 flex-1 text-xs sm:text-sm">
+        <div className="flex items-center justify-end gap-2 flex-1 text-xs sm:text-sm">
           <button
             onClick={saveProject}
             disabled={isSaving}
-            className="max-sm:hidden bg-gray-800 hover:bg-gray-700 text-white px-3.5 py-1 flex items-center gap-2 rounded sm:rounded-sm-transition-colors border border-gray-700"
+            className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#18181B] border border-[#27272A] hover:border-[#7C3AED] transition"
           >
             {isSaving ? (
               <Loader2Icon className="animate-spin" size={16} />
@@ -196,7 +196,7 @@ const Projects = () => {
             Save
           </button>
           <Link
-            className="flex items-center gap-2 px-4 py-1 rounded sm:rounded-sm border border-gray-700 hover:border-gray-500 transition-colors"
+            className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#18181B] border border-[#27272A] hover:border-[#7C3AED] transition"
             target="_blank"
             to={`/preview/${project.id}`}
           >
@@ -205,13 +205,13 @@ const Projects = () => {
           </Link>
           <button
             onClick={downloadCode}
-            className="bg-linear-to-br from-blue-700 to-blue-600 hover:from-blue-600 hover:to-blue-500 text-white px-3.5 py-1 flex items-center gap-2 rounded sm:rounded-sm transition-colors"
+            className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gradient-to-r from-[#7C3AED] to-[#4F46E5] hover:opacity-90 transition"
           >
             <ArrowBigDownDashIcon size={16} /> Download
           </button>
           <button
             onClick={togglePublish}
-            className="bg-linear-to-br from-blue-700 to-blue-600 hover:from-blue-600 hover:to-blue-500 text-white px-3.5 py-1 flex items-center gap-2 rounded sm:rounded-sm transition-colors"
+            className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#18181B] border border-[#27272A] hover:border-[#7C3AED] transition"
           >
             {project.isPublished ? (
               <EyeOffIcon size={16} />
@@ -224,7 +224,7 @@ const Projects = () => {
       </div>
 
       {/* Content */}
-      <div className="flex-1 flex overflow-auto">
+      <div className="flex-1 flex overflow-hidden">
         <Sidebar
           isMenuOpen={isMenuOpen}
           project={project}
@@ -244,8 +244,8 @@ const Projects = () => {
       </div>
     </div>
   ) : (
-    <div className="flex flex-col items-center justify-center h-[80vh]">
-      <h1 className="text-3xl font-semibold text-gray-300">
+   <div className="flex flex-col items-center justify-center h-[80vh] bg-[#09090B]">
+    <h1 className="text-2xl font-semibold text-[#A1A1AA]">
         Unable to load project
       </h1>
     </div>
