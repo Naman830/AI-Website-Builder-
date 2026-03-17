@@ -126,11 +126,11 @@ const Projects = () => {
   }
 
   return project ? (
-    <div className="flex flex-col h-screen w-full bg-gray-900 text-white">
+    <div className="flex flex-col h-screen w-full bg-[#09090B] text-white">
       {/* Builder Navbar */}
-      <div className="flex max-sm:flex-col sm:items-center gap-4 px-4 py-2 no-scrollbar">
+      <div className="flex max-sm:flex-col sm:items-center gap-4 px-4 py-3 border-b border-[#27272A] bg-[#09090B]/80 backdrop-blur-xl">
         {/* Left */}
-        <div className="flex items-center gap-2 sm:min-w-90 text-nowrap">
+        <div className="flex items-center gap-3 sm:min-w-[280px]">
           <img
             src="/favicon.svg"
             alt="logo"
@@ -138,11 +138,11 @@ const Projects = () => {
             onClick={() => navigate("/")}
           />
 
-          <div className="max-w-64 sm:max-w-xs">
-            <p className="text-sm font-medium capitalize truncate">
+          <div className="max-w-56">
+            <p className="text-sm font-medium truncate">
               {project.name}
             </p>
-            <p className="text-xs text-gray-400 -mt-0.5">
+            <p className="text-xs text-[#71717A]">
               Previewing last save version
             </p>
           </div>
@@ -151,31 +151,36 @@ const Projects = () => {
             {isMenuOpen ? (
               <MessageSquareIcon
                 onClick={() => setIsMenuOpen(false)}
-                className="size-6 cursor-pointer"
+                className="size-6 cursor-pointer text-[#A1A1AA]"
               />
             ) : (
               <XIcon
                 onClick={() => setIsMenuOpen(true)}
-                className="size-6 cursor-pointer"
+                className="size-6 cursor-pointer text-[#A1A1AA]"
               />
             )}
           </div>
         </div>
         {/* middle */}
-        <div className="hidden sm:flex gap-2 bg-gray-950 p-1.5 rounded-md">
-          <SmartphoneIcon
-            onClick={() => setDevice("phone")}
-            className={`size-6 p-1 rounded cursor-pointer  ${device === "phone" ? "bg-gray-700" : ""}`}
-          />
-          <TabletIcon
-            onClick={() => setDevice("tablet")}
-            className={`size-6 p-1 rounded cursor-pointer  ${device === "tablet" ? "bg-gray-700" : ""}`}
-          />
-          <LaptopIcon
-            onClick={() => setDevice("desktop")}
-            className={`size-6 p-1 rounded cursor-pointer  ${device === "desktop" ? "bg-gray-700" : ""}`}
-          />
-        </div>
+        <div className="hidden sm:flex items-center gap-1 p-1 rounded-xl bg-[#18181B] border border-[#27272A]">
+        {[
+          { key: "phone", icon: SmartphoneIcon },
+          { key: "tablet", icon: TabletIcon },
+          { key: "desktop", icon: LaptopIcon },
+        ].map(({ key, icon: Icon }) => (
+          <button
+            key={key}
+            onClick={() => setDevice(key as any)}
+            className={`p-2 rounded-lg transition ${
+              device === key
+                ? "bg-[#7C3AED] text-white"
+                : "text-[#A1A1AA] hover:bg-[#27272A]"
+            }`}
+          >
+            <Icon className="size-4" />
+          </button>
+        ))}
+      </div>
         {/* right */}
         <div className="flex items-center justify-end gap-3 flex-1 text-xs sm:text-sm">
           <button
