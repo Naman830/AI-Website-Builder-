@@ -64,12 +64,13 @@ const Community = () => {
                       key={project.id}
                       to={`/view/${project.id}`}
                       target="_blank"
-                      className=" w-72 max-sm:mx-auto cursor-pointer bg-gray-900/60 border-gray-700 rounded-lg overflow-hidden group hover:border-indigo-800/80 transition-all duration-300"
+                      className="   w-72 max-sm:mx-auto cursor-pointer bg-[#18181B]/80 backdrop-blur-xl border border-[#27272A] rounded-2xl overflow-hidden group relative transition-all duration-300 hover:-translate-y-1.5 hover:border-[#7C3AED]/60"
                     >
                       {/* DESKTOP LIKE MINI PREVIEW */}
+
                       <div
                         onClick={() => navigate(`/projects/${project.id}`)}
-                        className="relative w-full h-40 bg-gray-900 overflow-hidden border-b border-gray-800 "
+                        className=" relative w-full h-40 overflow-hidden border-b border-[#27272A] bg-black"
                       >
                         {project.current_code ? (
                           <iframe
@@ -79,7 +80,7 @@ const Community = () => {
                             style={{ transform: "scale(0.25)" }}
                           />
                         ) : (
-                          <div>
+                          <div className="w-full h-full flex items-center justify-center text-sm text-gray-500">
                             <p>No Preview</p>
                           </div>
                         )}
@@ -87,40 +88,37 @@ const Community = () => {
 
                       {/* Content */}
 
-                      <div className="p-4 text-white bg-linear-180 from-transparent group-hover:from-indigo-950 to-transparent transition-colors">
+                      <div className="p-4 text-white">
                         {/* Title + Badge */}
-                        <div className="flex items-start justify-between">
-                          <h2 className="text-lg font-medium line-clamp-2">
+                        <div className="flex items-start justify-between gap-2">
+                          <h2 className="text-[18px] font-semibold leading-snug line-clamp-2">
                             {project.name}
                           </h2>
 
-                          <button className="px-2.5 py-0.5 ml-2 text-xs bg-gray-800 border border-gray-700 rounded-full">
+                          <button className="  text-[10px] px-2 py-0.5 bg-white/5 border border-white/10 rounded-full text-gray-300">
                             Website
                           </button>
                         </div>
 
                         {/* Description */}
-                        <p className="text-gray-400 mt-2 text-sm line-clamp-2">
+                        <p className="text-gray-400 mt-2 text-sm leading-relaxed line-clamp-2">
                           {project.initial_prompt}
                         </p>
 
-                        <div className="flex justify-between items-center mt-6 ">
-                          <span className="text-xs text-gray-500 ">
+                        <div className="flex justify-between items-center mt-5">
+                          <span className="text-[13px] text-gray-500">
                             {new Date(project.createdAt).toLocaleDateString()}
                           </span>
                         </div>
 
-                        <div className="flex gap-3 text-white text-sm mt-2">
-                          <button
-                            className="px-3 py-1.5 bg-white/10 hover:bg-white/15 rounded-md 
-                          transition-colors flex items-center gap-2
-                          "
-                          >
-                            <span className="bg-gray-200 size-4.5 rounded-full text-black font-semibold flex items-center justify-center ">
-                              {project.user?.name?.slice(0, 1)}
-                            </span>
-                            <span>{project.user?.name}</span>
-                          </button>
+                        <div className="flex items-center gap-2 mt-3">
+                          <div className="size-7 rounded-full bg-gradient-to-br from-[#7C3AED] to-[#4F46E5] flex items-center justify-center text-xs font-semibold">
+                            {project.user?.name?.slice(0, 1)}
+                          </div>
+
+                          <span className="text-xs text-gray-300 truncate">
+                            {project.user?.name}
+                          </span>
                         </div>
                       </div>
                     </Link>
