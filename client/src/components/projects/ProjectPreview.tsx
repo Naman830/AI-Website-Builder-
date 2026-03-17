@@ -1,7 +1,6 @@
-import { forwardRef, useImperativeHandle, useRef } from "react";
+import { forwardRef, useImperativeHandle, useRef, useState, useEffect } from "react";
 import type { Project } from "../../types";
 import { iframeScript } from "../../assets/assets";
-import { useState, useEffect } from "react";
 import EditorPanel from "./EditorPanel";
 import LoaderSteps from "./LoaderSteps";
 
@@ -100,7 +99,7 @@ const ProjectPreview = forwardRef<ProjectPreviewRef, ProjectPreviewProps>(
             <iframe
               ref={iframeRef}
               srcDoc={injectPreview(project.current_code)}
-              className={`h-full max-sm:w-full ${resolutions[device]} mx-auto transition-all`}
+              className={`h-full max-sm:w-full ${resolutions[device] || resolutions.desktop} mx-auto transition-all`}
             />
 
             {showEditorPanel && selectedElement && (
