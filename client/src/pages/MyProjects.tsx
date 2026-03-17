@@ -165,22 +165,20 @@ const MyProjects = () => {
             </div>
           </div>
         ) : (
-          <div>
-            <div className="flex flex-col items-center justify-center h-[80vh]">
-              <h1 className="text-3xl font-semibold text-gray-300">
-                You have No Projects Yet!
-              </h1>
-              <div className="flex justify-center items-center">
-                <button
-                  onClick={() => navigate("/")}
-                  className="flex items-center gap-2 text-white px-3 sm:px-6 py-1 sm:py-2 rounded bg-linear-to-br from-indigo-500 to-indigo-600 hover:opacity-90 active:scale-95
-              transition-all"
-                >
-                  <PlusIcon size={18} />
-                  Create New
-                </button>
-              </div>
-            </div>
+          <div className="flex flex-col items-center justify-center h-[80vh] text-center">
+            <h1 className="text-3xl font-semibold text-gray-300 mb-6">
+              You have No Projects Yet!
+            </h1>
+
+            <button
+              onClick={() => navigate("/")}
+              className="flex items-center gap-2 px-6 py-2.5 rounded-xl 
+        bg-gradient-to-br from-[#7C3AED] to-[#4F46E5] 
+        hover:opacity-90 active:scale-95 transition-all shadow-lg shadow-indigo-900/30"
+            >
+              <PlusIcon size={18} />
+              Create New
+            </button>
           </div>
         )}
       </div>
