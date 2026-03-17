@@ -50,6 +50,7 @@ export const Navbar = () => {
             { name: "My Projects", to: "/projects" },
             { name: "Community", to: "/community" },
             { name: "Pricing", to: "/pricing" },
+            { name: "Contact", to: "/contact" },
           ].map((item) => (
             <Link
               key={item.name}

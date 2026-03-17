@@ -43,14 +43,14 @@ export default function FAQ() {
               className="glass-card rounded-lg overflow-hidden group"
             >
               <details className="group">
-                <summary className="flex items-center justify-between p-6 cursor-pointer list-none">
+                <summary className="flex items-center justify-between p-6 cursor-pointer list-none bg-[#131118] ">
                   <span className="font-semibold text-lg flex items-center gap-3">
                     {faq.icon}
                     {faq.question}
                   </span>
                   <ChevronDown className="transition-transform group-open:rotate-180 size-5" />
                 </summary>
-                <div className="px-6 pb-6 text-slate-400 leading-relaxed border-t border-white/5 pt-4">
+                <div className="px-6 pb-6 text-slate-400 leading-relaxed border-t border-[#131118] pt-4">
                   {faq.answer}
                 </div>
               </details>

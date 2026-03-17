@@ -11,6 +11,7 @@ import { Footer } from "@/components/Footer";
 import { Toaster } from "@/components/ui/sonner"
 import AuthPage from "./pages/auth/AuthPage";
 import Settings from "./pages/Settings";
+import ContactForm from "./pages/Contact";
 
 const App = () => {
   const { pathname } = useLocation();
@@ -39,6 +40,7 @@ const App = () => {
         <Route path="/view/:projectId" element={<View />} />
         <Route path="/auth/:pathname" element={<AuthPage />} />
         <Route path="/account/settings" element={<Settings />} />
+        <Route path="/contact" element={<ContactForm />} />
       </Routes>
       {!hideFooter && <Footer />}
     </div>
