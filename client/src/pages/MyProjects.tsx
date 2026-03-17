@@ -57,28 +57,34 @@ const MyProjects = () => {
         ) : projects.length > 0 ? (
           <div className="py-10 min-h-[80vh]">
             <div>
-              <div className="flex justify-between mb-12">
-                <h1 className="text-2xl font-medium text-white">My Projects</h1>
+              {/* HEADING + BUTTON FOR CREATE NEW */}
+              <div className="flex justify-between items-center mb-14">
+                <h1 className="text-3xl font-semibold tracking-tight text-white">
+                  My Projects
+                </h1>
+
                 <button
                   onClick={() => navigate("/")}
-                  className="flex items-center gap-2 text-white px-3 sm:px-6 py-1 sm:py-2 rounded bg-linear-to-br from-indigo-500 to-indigo-600 hover:opacity-90 active:scale-95
-              transition-all"
+                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl 
+          bg-gradient-to-br from-[#7C3AED] to-[#4F46E5] 
+          hover:opacity-90 active:scale-95 transition-all shadow-lg shadow-indigo-900/30"
                 >
                   <PlusIcon size={18} />
                   Create New
                 </button>
               </div>
+
               <div className="flex flex-wrap gap-3.5">
                 {projects.map((project) => (
                   <div
-                   
                     key={project.id}
-                    className=" relative group w-72 max-sm:mx-auto cursor-pointer bg-gray-900/60 border-gray-700 rounded-lg overflow-hidden shadow-md group hover:shadow-indigo-700/30 hover:border-indigo-800/80 transition-all duration-300"
+                    className=" relative group w-72 max-sm:mx-auto cursor-pointer rounded-2xl overflow-hidden bg-[#18181B]/80 backdrop-blur-xl border border-[#27272A] hover:border-[#7C3AED]/50 shadow-lg hover:shadow-[0_0_40px_rgba(124,58,237,0.15)] transition-all duration-300 hover:-translate-y-1"
                   >
                     {/* DESKTOP LIKE MINI PREVIEW */}
-                    <div 
-                     onClick={() => navigate(`/projects/${project.id}`)}
-                    className="relative w-full h-40 bg-gray-900 overflow-hidden border-b border-gray-800 ">
+                    <div
+                      onClick={() => navigate(`/projects/${project.id}`)}
+                      className="relative w-full h-40 bg-black overflow-hidden border-b border-[#27272A]"
+                    >
                       {project.current_code ? (
                         <iframe
                           srcDoc={project.current_code}
@@ -87,7 +93,7 @@ const MyProjects = () => {
                           style={{ transform: "scale(0.25)" }}
                         />
                       ) : (
-                        <div>
+                        <div className="flex items-center justify-center h-full text-sm text-gray-500">
                           <p>No Preview</p>
                         </div>
                       )}
@@ -95,43 +101,45 @@ const MyProjects = () => {
 
                     {/* Content */}
 
-                    <div className="p-4 text-white bg-linear-180 from-transparent group-hover:from-indigo-950 to-transparent transition-colors">
+                    <div className="p-5">
                       {/* Title + Badge */}
-                      <div className="flex items-start justify-between">
-                        <h2 className="text-lg font-medium line-clamp-2">
+                      <div className="flex items-start justify-between gap-2">
+                        <h2 className="text-[18px] font-semibold leading-snug line-clamp-2">
                           {project.name}
                         </h2>
 
-                        <button className="px-2.5 py-0.5 ml-2 text-xs bg-gray-800 border border-gray-700 rounded-full">
+                        <button className="  text-[12px] px-2 py-0.5 bg-white/5 border border-white/10 rounded-full text-gray-300">
                           Website
                         </button>
                       </div>
 
                       {/* Description */}
-                      <p className="text-gray-400 mt-2 text-sm line-clamp-2">
+                      <p className="text-gray-400 mt-2 text-sm leading-relaxed line-clamp-2">
                         {project.initial_prompt}
                       </p>
 
                       <div
                         onClick={(e) => e.stopPropagation()}
-                        className="flex justify-between items-center mt-6 "
+                        className="flex justify-between items-center mt-5 "
                       >
-                        <span className="text-xs text-gray-500 ">
-                          {new Date(project.createdAt).toLocaleDateString()}
+                        <span className="text-[13px] text-gray-500">
+                          {project.createdAt &&
+                            new Date(project.createdAt).toLocaleDateString()}
+                          {/* DATE FIXED */}
                         </span>
                       </div>
 
                       <div className="flex gap-3 text-white text-sm mt-2">
                         <button
                           onClick={() => navigate(`/preview/${project.id}`)}
-                          className="px-3 py-1.5 bg-white/10 hover:bg-white/15 rounded-md transition-all"
+                          className="flex-1 text-sm px-3 py-2 rounded-lg bg-white/5 hover:bg-white/10 border border-[#27272A] transition-all"
                         >
                           Preview
                         </button>
 
                         <button
                           onClick={() => navigate(`/projects/${project.id}`)}
-                          className="px-3 py-1.5 bg-white/10 hover:bg-white/15 rounded-md transition-all"
+                          className="flex-1 text-sm px-3 py-2 rounded-lg bg-white/5 hover:bg-white/10 border border-[#27272A] transition-all"
                         >
                           Open
                         </button>
@@ -139,7 +147,7 @@ const MyProjects = () => {
                     </div>
                     <div onClick={(e) => e.stopPropagation()}>
                       <TrashIcon
-                        className="absolute top-3 right-3 scale-0 group-hover:scale-100 bg-white p-1.5 size-7 rounded text-red-500 text-xl cursor-pointer transition-all"
+                        className="absolute top-3 right-3 scale-0 group-hover:scale-100 bg-[#18181B] border border-[#27272A] p-1.5 size-7 rounded-lg text-red-500  hover:bg-red-500/10 transition-all cursor-pointer"
                         onClick={() => deleteProject(project.id)}
                       />
                     </div>

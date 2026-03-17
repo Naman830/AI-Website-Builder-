@@ -2,7 +2,7 @@ import { Hero } from "../components/home/Hero";
 import { Features } from "../components/home/Feature";
 import { TrustSection } from "../components/home/Trust";
 import { Templates } from "../components/home/Template";
-import { CTA } from "../components/home/Cta";
+import { CTA } from "@/components/home/CTA";
 
 export default function App() {
   return (

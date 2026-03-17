@@ -96,7 +96,7 @@ const Community = () => {
                             {project.name}
                           </h2>
 
-                          <button className="  text-[10px] px-2 py-0.5 bg-white/5 border border-white/10 rounded-full text-gray-300">
+                          <button className="  text-[12px] px-2 py-0.5 bg-white/5 border border-white/10 rounded-full text-gray-300">
                             Website
                           </button>
                         </div>
@@ -133,7 +133,7 @@ const Community = () => {
             <div>
               <div className="flex flex-col items-center justify-center h-[80vh]">
                 <h1 className="text-3xl font-semibold text-gray-300">
-                  You have No Projects Yet!
+                  No projects published yet
                 </h1>
                 <div className="flex justify-center items-center">
                   <button
