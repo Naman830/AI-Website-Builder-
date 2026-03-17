@@ -31,14 +31,11 @@ const EditorPanel = ({
 
   if (!selectedElement || !values) return null;
 
-  const handleChange = (field: string, value: string) => {
-    const newValues = { ...values, [field]: value };
-    if (field in values.styles) {
-      newValues.styles = { ...values.styles, [field]: value };
-    }
-    setValues(newValues);
-    onUpdate({ [field]: value });
-  };
+const handleChange = (field: string, value: string) => {
+  const newValues = { ...values, [field]: value };
+  setValues(newValues);
+  onUpdate({ [field]: value });
+};
 
   const handleStyleChange = (styleName: string, value: string) => {
     const newStyles = { ...values.styles, [styleName]: value };
@@ -91,7 +88,7 @@ const EditorPanel = ({
             </label>
             <input
               type="text"
-              value={values.styles.padding}
+              value={values.styles?.padding || ""}
               onChange={(e) => handleStyleChange("padding", e.target.value)}
               className="w-full text-sm p-2.5 bg-[#09090B] border border-[#27272A] rounded-xl focus:ring-1 focus:ring-[#7C3AED] outline-none transition"
             />
@@ -133,8 +130,8 @@ const EditorPanel = ({
               <input
                 type="color"
                 value={
-                  values.styles.backgroundColor === "rgba(0, 0, 0 , 0)"
-                    ? "#fffff"
+                  values.styles.backgroundColor === "rgba(0, 0, 0, 0)"
+                    ? "#ffffff"
                     : values.styles.backgroundColor
                 }
                 onChange={(e) =>
