@@ -45,16 +45,16 @@ const ProjectPreview = forwardRef<ProjectPreviewRef, ProjectPreviewProps>(
             (el as HTMLElement).style.outline = "";
           });
 
-          // 2. Remove injected style + script from the document 
-          const previewStyle = doc.getElementById('ai-preview-style');
-          if (previewStyle) previewStyle.remove();
+        // 2. Remove injected style + script from the document
+        const previewStyle = doc.getElementById("ai-preview-style");
+        if (previewStyle) previewStyle.remove();
 
-          const previewScript = doc.getElementById('ai-preview-script');
-          if(previewScript) previewScript.remove()
+        const previewScript = doc.getElementById("ai-preview-script");
+        if (previewScript) previewScript.remove();
 
-          // 3. Serialize clean Html
-          const html = doc.documentElement.outerHTML;
-          return html
+        // 3. Serialize clean Html
+        const html = doc.documentElement.outerHTML;
+        return html;
       },
     }));
 
@@ -94,7 +94,7 @@ const ProjectPreview = forwardRef<ProjectPreviewRef, ProjectPreviewProps>(
     };
 
     return (
-      <div className="relative h-full bg-gray-900 flex-1 rounded-xl overflow-hidden max-sm:ml-2">
+      <div className="relative h-full flex-1 bg-[#09090B]  border border-[#27272A] overflow-hidden">
         {project.current_code ? (
           <>
             <iframe
@@ -102,6 +102,7 @@ const ProjectPreview = forwardRef<ProjectPreviewRef, ProjectPreviewProps>(
               srcDoc={injectPreview(project.current_code)}
               className={`h-full max-sm:w-full ${resolutions[device]} mx-auto transition-all`}
             />
+
             {showEditorPanel && selectedElement && (
               <EditorPanel
                 selectedElement={selectedElement}
@@ -119,9 +120,7 @@ const ProjectPreview = forwardRef<ProjectPreviewRef, ProjectPreviewProps>(
             )}
           </>
         ) : (
-          isGenerating && (
-            <LoaderSteps />
-          )
+          isGenerating && <LoaderSteps />
         )}
       </div>
     );
