@@ -1,8 +1,14 @@
-import { ArrowRight, Bolt, Code, MonitorSmartphone, Contrast } from "lucide-react";
+import {
+  ArrowRight,
+  Bolt,
+  Code,
+  MonitorSmartphone,
+  Contrast,
+} from "lucide-react";
 
 export const Features = () => (
   <section className="py-20 px-6 max-w-[1280px] mx-auto">
-    <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+    <div className="flex flex-col md:flex-row justify-between md:items-end items-start mb-12 gap-6">
       <div className="max-w-xl">
         <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
           Powering the next generation of web creation
@@ -12,7 +18,7 @@ export const Features = () => (
           turn thoughts into production-ready code.
         </p>
       </div>
-      <button className="text-white border border-border-dark hover:border-primary bg-surface-dark hover:bg-surface-dark/80 px-6 py-3 rounded-full transition-all flex items-center gap-2 group">
+      <button className="text-white border border-border-dark hover:bg-primary bg-surface-dark hover:bg-surface-dark/ px-6 py-3 rounded-full transition-all duration-300 ease-in-out flex items-center gap-2 group">
         Explore all features
         <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
       </button>

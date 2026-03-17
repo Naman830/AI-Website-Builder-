@@ -192,3 +192,21 @@
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
 }
+
+
+/* dashboard */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-shimmer::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  animation: shimmer 2s infinite;
+}
