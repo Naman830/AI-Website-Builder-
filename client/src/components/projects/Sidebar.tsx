@@ -95,7 +95,7 @@ const Sidebar = ({
 
   return (
     <div
-      className={`h-full sm:max-w-sm rounded-2xl bg-[#09090B] border border-[#27272A] shadow-[0_0_40px_rgba(124,58,237,0.08)] transition-all ${isMenuOpen ? "max-sm:w-0 overflow-hidden" : "w-full"}`}
+      className={`h-full sm:max-w-sm  bg-[#09090B] border border-[#27272A] shadow-[0_0_40px_rgba(124,58,237,0.08)] transition-all ${isMenuOpen ? "max-sm:w-0 overflow-hidden" : "w-full"}`}
     >
       <div className="flex flex-col h-full">
         {/* Message Container*/}

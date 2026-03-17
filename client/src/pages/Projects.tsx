@@ -108,14 +108,14 @@ const Projects = () => {
       navigate("/");
       toast("Please login to view your projects");
     }
-  }, [session?.user]);
+  }, [session?.user, isPending, navigate]);
 
   useEffect(() => {
     if (project && !project.current_code) {
       const intervalId = setInterval(fetchProject, 10000);
       return () => clearInterval(intervalId);
     }
-  }, [project]);
+  }, [project?.current_code]);
 
   if (loading) {
     return (
@@ -139,9 +139,7 @@ const Projects = () => {
           />
 
           <div className="max-w-56">
-            <p className="text-sm font-medium truncate">
-              {project.name}
-            </p>
+            <p className="text-sm font-medium truncate">{project.name}</p>
             <p className="text-xs text-[#71717A]">
               Previewing last save version
             </p>
@@ -149,12 +147,12 @@ const Projects = () => {
 
           <div className="sm:hidden flex-1 flex justify-end">
             {isMenuOpen ? (
-              <MessageSquareIcon
+              <XIcon
                 onClick={() => setIsMenuOpen(false)}
                 className="size-6 cursor-pointer text-[#A1A1AA]"
               />
             ) : (
-              <XIcon
+              <MessageSquareIcon
                 onClick={() => setIsMenuOpen(true)}
                 className="size-6 cursor-pointer text-[#A1A1AA]"
               />
@@ -163,24 +161,24 @@ const Projects = () => {
         </div>
         {/* middle */}
         <div className="hidden sm:flex items-center gap-1 p-1 rounded-xl bg-[#18181B] border border-[#27272A]">
-        {[
-          { key: "phone", icon: SmartphoneIcon },
-          { key: "tablet", icon: TabletIcon },
-          { key: "desktop", icon: LaptopIcon },
-        ].map(({ key, icon: Icon }) => (
-          <button
-            key={key}
-            onClick={() => setDevice(key as any)}
-            className={`p-2 rounded-lg transition ${
-              device === key
-                ? "bg-[#7C3AED] text-white"
-                : "text-[#A1A1AA] hover:bg-[#27272A]"
-            }`}
-          >
-            <Icon className="size-4" />
-          </button>
-        ))}
-      </div>
+          {[
+            { key: "phone", icon: SmartphoneIcon },
+            { key: "tablet", icon: TabletIcon },
+            { key: "desktop", icon: LaptopIcon },
+          ].map(({ key, icon: Icon }) => (
+            <button
+              key={key}
+              onClick={() => setDevice(key as any)}
+              className={`p-2 rounded-lg transition ${
+                device === key
+                  ? "bg-[#7C3AED] text-white"
+                  : "text-[#A1A1AA] hover:bg-[#27272A]"
+              }`}
+            >
+              <Icon className="size-4" />
+            </button>
+          ))}
+        </div>
         {/* right */}
         <div className="flex items-center justify-end gap-2 flex-1 text-xs sm:text-sm">
           <button
@@ -244,8 +242,8 @@ const Projects = () => {
       </div>
     </div>
   ) : (
-   <div className="flex flex-col items-center justify-center h-[80vh] bg-[#09090B]">
-    <h1 className="text-2xl font-semibold text-[#A1A1AA]">
+    <div className="flex flex-col items-center justify-center h-[80vh] bg-[#09090B]">
+      <h1 className="text-2xl font-semibold text-[#A1A1AA]">
         Unable to load project
       </h1>
     </div>
