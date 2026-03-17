@@ -31,6 +31,7 @@ const EditorPanel = ({
 
   if (!selectedElement || !values) return null;
 
+  // handlechnage
 const handleChange = (field: string, value: string) => {
   const newValues = { ...values, [field]: value };
   setValues(newValues);

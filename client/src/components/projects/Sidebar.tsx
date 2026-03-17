@@ -50,15 +50,13 @@ const Sidebar = ({
       const { data } = await api.get(
         `/api/project/rollback/${project.id}/${versionId}`,
       );
-      const { data: data2 } = await api.get(
-        `/api/user/project/${project.id}`,
-      );
+      const { data: data2 } = await api.get(`/api/user/project/${project.id}`);
 
       toast.success(data.message);
       setProject(data2.project);
 
       setIsGenerating(false);
-    } catch (error : any) {
+    } catch (error: any) {
       setIsGenerating(false);
       toast.error(error?.response?.data?.message || error.message);
       console.log(error);
@@ -75,7 +73,7 @@ const Sidebar = ({
       }, 10000);
       const { data } = await api.post(`/api/project/revision/${project.id}`, {
         message: input,
-      }); 
+      });
       fetchProject();
       toast.success(data.message);
       setInput("");
@@ -97,11 +95,11 @@ const Sidebar = ({
 
   return (
     <div
-      className={`h-full sm:max-w-sm rounded-xl bg-gray-900  border-gray-800 transition-all ${isMenuOpen ? "max-sm:w-0 overflow-hidden" : "w-full"}`}
+      className={`h-full sm:max-w-sm rounded-2xl bg-[#09090B] border border-[#27272A] shadow-[0_0_40px_rgba(124,58,237,0.08)] transition-all ${isMenuOpen ? "max-sm:w-0 overflow-hidden" : "w-full"}`}
     >
       <div className="flex flex-col h-full">
         {/* Message Container*/}
-        <div className="flex-1 overflow-y-auto no-scrollbar px-3 flex flex-col gap-4 ">
+        <div className="flex-1 overflow-y-auto no-scrollbar px-4 py-4 flex flex-col gap-5">
           {[...project.conversation, ...project.versions]
             .sort(
               (a, b) =>
@@ -117,21 +115,21 @@ const Sidebar = ({
                 return (
                   <div
                     key={msg.id}
-                    className={`flex items-center gap-3 ${isUser} ? "justify-end" : "justify-start"`}
+                    className={`flex items-end gap-3  ${isUser} ? "justify-end" : "justify-start"`}
                   >
                     {!isUser && (
-                      <div>
-                        <BotIcon className="size-5 text-white " />
+                      <div className="w-8 h-8 rounded-xl bg-[#18181B] border border-[#27272A] flex items-center justify-center shadow">
+                        <BotIcon className="size-4 text-[#A1A1AA]" />
                       </div>
                     )}
                     <div
-                      className={`max-w-[80%] p-2 px-4 rounded-2xl shadow-sm text-sm mt-5 leading-relaxed ${isUser ? "bg-linear-to-r from-indigo-500 to-indigo-600 text-white rounded-tr-none" : "rounded tl-none bg-gray-800 text-gray-100"}`}
+                      className={`max-w-[80%] px-4 py-2.5 text-sm leading-relaxed rounded-2xl transition-all ${isUser ? "bg-gradient-to-r from-[#7C3AED] to-[#4F46E5] text-white rounded-br-none " : "bg-[#18181B] border border-[#27272A] text-[#E4E4E7] rounded-bl-none"}`}
                     >
                       {msg.content}
                     </div>
                     {isUser && (
-                      <div className="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center">
-                        <UserIcon className="size-5 text-gray-200 " />
+                      <div className="w-8 h-8 rounded-xl bg-[#18181B] border border-[#27272A] flex items-center justify-center">
+                        <UserIcon className="size-4 text-[#A1A1AA]" />
                       </div>
                     )}
                   </div>
@@ -141,24 +139,24 @@ const Sidebar = ({
                 return (
                   <div
                     key={ver.id}
-                    className="w-4/5 mx-auto my-2 p-3 rounded-xl bg-gray-800 text-gray-100 shadow flex flex-col gap-2 "
+                    className="w-[90%] mx-auto p-4 rounded-2xl bg-[#18181B] border border-[#27272A] shadow-sm flex flex-col gap-3 hover:border-[#7C3AED]/40 transition-all "
                   >
-                    <div className="text-xs font-medium">
+                    <div className="text-xs text-[#A1A1AA]">
                       code updated <br />{" "}
-                      <span className="text-gray-500 text-xs font-normal">
+                      <span className="text-white font-medium">
                         {new Date(ver.timestamp).toLocaleString()}
                       </span>
                     </div>
 
                     <div className="flex items-center justify-between">
                       {project.current_version_index === ver.id ? (
-                        <button className="px-3 py-1 rounded-md text-xs bg-gray-700">
+                        <button className="px-3 py-1 text-xs rounded-md bg-[#27272A] text-[#A1A1AA]">
                           Current Version
                         </button>
                       ) : (
                         <button
                           onClick={() => handleRollback(ver.id)}
-                          className="px-3 py-1 rounded-md text-xs bg-indigo-500 hover:bg-indigo-600 text-white"
+                          className="px-3 py-1 text-xs rounded-md bg-gradient-to-r from-[#7C3AED] to-[#4F46E5] text-white hover:opacity-90 transition"
                         >
                           Roll Back to this Version
                         </button>
@@ -167,7 +165,7 @@ const Sidebar = ({
                         target="_blank "
                         to={"/preview/${project.id}/${ver.id}"}
                       >
-                        <EyeIcon className="size-6 p-1 bg-gray-700 hover:bg-indigo-500 transition-colors rounded " />
+                        <EyeIcon className="size-7 p-1.5 rounded-lg bg-[#27272A] hover:bg-[#7C3AED] transition" />
                       </Link>
                     </div>
                   </div>
@@ -181,17 +179,17 @@ const Sidebar = ({
                 <BotIcon className="size-5 text-white" />
               </div>
               {/* Three dots loader */}
-              <div className="flex gap-1.5 h-full items-end">
+              <div className="flex gap-1.5">
                 <span
-                  className="size-2 rounded-full animate-bounce bg-gray-600 "
+                  className="size-2 rounded-full bg-[#7C3AED] animate-bounce "
                   style={{ animationDelay: "0s" }}
                 />
                 <span
-                  className="size-2 rounded-full animate-bounce bg-gray-600 "
+                  className="size-2 rounded-full bg-[#7C3AED] animate-bounce "
                   style={{ animationDelay: "0.2s" }}
                 />
                 <span
-                  className="size-2 rounded-full animate-bounce bg-gray-600 "
+                  className="size-2 rounded-full bg-[#7C3AED] animate-bounce"
                   style={{ animationDelay: "0.4s" }}
                 />
               </div>
@@ -200,20 +198,23 @@ const Sidebar = ({
           <div ref={messageRef} />
         </div>
         {/* INPUT FIELD CONTAINER*/}
-        <form onSubmit={handleRevisions} className="m-3 relative ">
-          <div className="flex items-center gap-2 ">
+        <form
+          onSubmit={handleRevisions}
+          className="p-3 border-t border-[#27272A] bg-[#09090B]"
+        >
+          <div className="relative">
             <textarea
               onChange={(e) => setInput(e.target.value)}
               value={input}
               rows={4}
               placeholder="Decribe your website or request changes..."
-              className="flex-1 p-3 rounded-xl resize-none text-sm outline-none ring ring-gray-700 focus:ring-indigo-500 bg-gray-800 text-gray-100 placeholder-gray-400 transition-all"
+              className="w-full p-4 pr-12 rounded-2xl resize-none text-sm outline-none bg-[#18181B] border border-[#27272A] text-white placeholder-[#71717A] focus:border-[#7C3AED] focus:ring-1 focus:ring-[#7C3AED] transition-all"
               disabled={isGenerating}
             />
 
             <button
               disabled={isGenerating || !input.trim()}
-              className="absolute bottom-2.5 right-2.5 rounded-full bg-linear-to-r from-indigo-600 hover:to-indigo-700 text-white transition-colors disabled:opacity-60"
+              className="absolute bottom-3 right-3 p-2 rounded-xl bg-gradient-to-r from-[#7C3AED] to-[#4F46E5] hover:opacity-90 disabled:opacity-50 transition"
             >
               {isGenerating ? (
                 <Loader2Icon className="size-7 p-1.5 animate-spin text-white " />
