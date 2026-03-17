@@ -59,13 +59,13 @@ const Community = () => {
                     remix, and learn from top creators.
                   </motion.p>
                 </div>
-                <div className="flex flex-wrap gap-3.5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                   {projects.map((project) => (
                     <Link
                       key={project.id}
                       to={`/view/${project.id}`}
                       target="_blank"
-                      className="   w-72 max-sm:mx-auto cursor-pointer bg-[#18181B]/80 backdrop-blur-xl border border-[#27272A] rounded-2xl overflow-hidden group relative transition-all duration-300 hover:-translate-y-1.5 hover:border-[#7C3AED]/60"
+                      className="w-full cursor-pointer bg-[#18181B]/80 backdrop-blur-xl border border-[#27272A] rounded-2xl overflow-hidden group relative transition-all duration-300 hover:-translate-y-1.5 hover:border-[#7C3AED]/60"
                     >
                       {/* DESKTOP LIKE MINI PREVIEW */}
 
