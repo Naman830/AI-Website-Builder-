@@ -18,7 +18,9 @@ export const Features = () => (
           turn thoughts into production-ready code.
         </p>
       </div>
-      <button className="text-white border border-border-dark hover:bg-primary bg-surface-dark hover:bg-surface-dark/ px-6 py-3 rounded-full transition-all duration-300 ease-in-out flex items-center gap-2 group">
+      <button className=" border border-border-dark bg-surface-dark hover:bg-surface-dark/ px-6 py-3 rounded-full   flex items-center gap-2 group
+       hover:border-primary text-white transition-colors
+      ">
         Explore all features
         <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
       </button>

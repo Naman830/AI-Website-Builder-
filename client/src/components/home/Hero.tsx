@@ -105,8 +105,7 @@ export const Hero = () => {
             <textarea
               onChange={(e) => setInput(e.target.value)}
               rows={6}
-              placeholder="Describe your website idea... 
-For example: A modern coffee shop landing page with dark mode and smooth animations."
+              placeholder="A modern portfolio website with glassmorphism, animated sections, and a minimal developer-focused layout."
               className="w-full resize-none bg-transparent text-white placeholder:text-text-secondary outline-none pl-14 pr-6 pt-6 pb-20 text-lg leading-relaxed font-medium"
             />
 
