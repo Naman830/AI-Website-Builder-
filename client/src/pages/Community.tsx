@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import type { Project } from "../types";
-import { Loader2Icon, PlusIcon, TrashIcon } from "lucide-react";
+import { Loader2Icon, PlusIcon} from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "@/configs/axios";
 import { toast } from "sonner";
@@ -13,12 +13,13 @@ const Community = () => {
 
   const fetchProject = async () => {
     try {
-      const { data } = await api.get("/api/project/published ");
+      const { data } = await api.get("/api/project/published");
       setProjects(data.projects);
       setLoading(false);
     } catch (error: any) {
       console.log(error);
       toast.error(error?.response?.data?.message || error.message);
+      setLoading(false); // ✅ add this
     }
   };
 
@@ -69,7 +70,7 @@ const Community = () => {
                       {/* DESKTOP LIKE MINI PREVIEW */}
 
                       <div
-                        onClick={() => navigate(`/projects/${project.id}`)}
+                        // onClick={() => navigate(`/projects/${project.id}`)} //This is create erorr while view and then come it show project page which is not exist in user
                         className=" relative w-full h-40 overflow-hidden border-b border-[#27272A] bg-black"
                       >
                         {project.current_code ? (
@@ -107,13 +108,15 @@ const Community = () => {
 
                         <div className="flex justify-between items-center mt-5">
                           <span className="text-[13px] text-gray-500">
-                            {new Date(project.createdAt).toLocaleDateString()}
+                            {project.createdAt &&
+                              new Date(project.createdAt).toLocaleDateString()}
+                            {/* DATE FIXED */}
                           </span>
                         </div>
 
                         <div className="flex items-center gap-2 mt-3">
                           <div className="size-7 rounded-full bg-gradient-to-br from-[#7C3AED] to-[#4F46E5] flex items-center justify-center text-xs font-semibold">
-                            {project.user?.name?.slice(0, 1)}
+                            {project.user?.name?.slice(0, 1) || "U"}
                           </div>
 
                           <span className="text-xs text-gray-300 truncate">
