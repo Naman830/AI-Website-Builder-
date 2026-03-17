@@ -210,3 +210,22 @@
   inset: 0;
   animation: shimmer 2s infinite;
 }
+
+@media (max-width: 640px) {
+  #project_mobile_view{
+    padding: 0px 90px;
+}
+}
+
+
+@media (max-width: 500px) {
+  #project_mobile_view{
+    padding: 0px 50px;
+}
+}
+
+@media (max-width: 400px) {
+  #project_mobile_view{
+    padding: 0px 0px;
+}
+}

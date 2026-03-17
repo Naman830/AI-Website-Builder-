@@ -30,9 +30,9 @@ const MyProjects = () => {
       );
       if (!confirm) return;
       const { data } = await api.delete(`/api/project/${projectId}`);
-      toast.success(data.message);  
-      // WE CAN USE BOTH HERE THIS AND ALSO fetchProject() for deleting project 
-      setProjects(prev => prev.filter(p => p.id !== projectId));
+      toast.success(data.message);
+      // WE CAN USE BOTH HERE THIS AND ALSO fetchProject() for deleting project
+      setProjects((prev) => prev.filter((p) => p.id !== projectId));
     } catch (error: any) {
       console.log(error);
       toast.error(error?.response?.data?.message || error.message);
@@ -77,11 +77,15 @@ const MyProjects = () => {
                 </button>
               </div>
 
-              <div className="flex flex-wrap gap-3.5">
+              <div
+                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+                id="project_mobile_view"
+              >
                 {projects.map((project) => (
                   <div
                     key={project.id}
-                    className=" relative group w-72 max-sm:mx-auto cursor-pointer rounded-2xl overflow-hidden bg-[#18181B]/80 backdrop-blur-xl border border-[#27272A] hover:border-[#7C3AED]/50 shadow-lg hover:shadow-[0_0_40px_rgba(124,58,237,0.15)] transition-all duration-300 hover:-translate-y-1"
+                    className="relative group w-full h-full flex flex-col cursor-pointer rounded-2xl overflow-hidden bg-[#18181B]/80 backdrop-blur-xl border border-[#27272A] hover:border-[#7C3AED]/50 shadow-lg hover:shadow-[0_0_40px_rgba(124,58,237,0.15)] transition-all duration-300 hover:-translate-y-1
+                    "
                   >
                     {/* DESKTOP LIKE MINI PREVIEW */}
                     <div
@@ -104,7 +108,7 @@ const MyProjects = () => {
 
                     {/* Content */}
 
-                    <div className="p-5">
+                    <div className="p-5 flex flex-col flex-1">
                       {/* Title + Badge */}
                       <div className="flex items-start justify-between gap-2">
                         <h2 className="text-[18px] font-semibold leading-snug line-clamp-2">
@@ -123,10 +127,12 @@ const MyProjects = () => {
 
                       <div
                         onClick={(e) => e.stopPropagation()}
-                        className="flex justify-between items-center mt-5 "
+                        className="mt-auto "
                       >
                         <span className="text-[13px] text-gray-500">
-                          {new Date(project.createdAt || "").toLocaleDateString()}
+                          {new Date(
+                            project.createdAt || "",
+                          ).toLocaleDateString()}
                           {/* DATE FIXED */}
                         </span>
                       </div>

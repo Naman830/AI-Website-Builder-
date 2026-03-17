@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import type { Project } from "../types";
-import { Loader2Icon, PlusIcon} from "lucide-react";
+import { Loader2Icon, PlusIcon } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "@/configs/axios";
 import { toast } from "sonner";
@@ -59,7 +59,10 @@ const Community = () => {
                     remix, and learn from top creators.
                   </motion.p>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <div
+                  className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+                  id="project_mobile_view"
+                >
                   {projects.map((project) => (
                     <Link
                       key={project.id}
